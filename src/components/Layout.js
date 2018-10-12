@@ -9,7 +9,6 @@ const Layout = props => {
       <Header />
       <div id="main" className="box">
         <div className="box-row">
-          <Aside />
           <div className="box-col container wide">
             {props.children}
           </div>

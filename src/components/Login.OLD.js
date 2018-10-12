@@ -1,7 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { connect } from 'react-redux';
-import { login } from '../../redux/access';
 
 class Login extends React.Component {
   state = {
@@ -9,6 +7,25 @@ class Login extends React.Component {
     users: [],
     posts: []
   };
+
+  componentDidMount() {
+    /*
+    this.setState({loading: true})
+    fetch('https://randomuser.me/api?results=10&seed=abc')
+    .then(response => response.json())
+    .then(({results}) => this.setState({
+        loading: false,
+        users: results
+    }))
+
+
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.authHandler({user});
+      }
+    })
+    */
+  }
 
   authHandler = async (authData) => {
     this.setState({
@@ -31,12 +48,14 @@ class Login extends React.Component {
 
   login = event => {
     event.preventDefault();
-    let { username, password } = this.state;
-    this.props.login(email, password);
-    this.setState({
-      email: '',
-      password: ''
-    });
+    const username = this.username.value.value;
+    const password = this.password.value.value;
+    fetch('https://randomuser.me/api?results=10&seed=abc')
+    .then(response => response.json())
+    .then(({results}) => this.setState({
+        loading: false,
+        users: results
+    }))
   };
 
   logout = async () => {
@@ -48,8 +67,6 @@ class Login extends React.Component {
 
   render() {
     const logout = <button onClick={this.logout}>Log Out!</button>
-    let {email, password} = this.state;
-    let {isLoginPending, isLoginSuccess, loginError} = this.props;
 
     if (!this.state.uid) {
       return <Login authenticate={this.authenticate} />
@@ -59,30 +76,11 @@ class Login extends React.Component {
       <form className="form" method="POST" onSubmit={this.login}>
         <div className="form-group">
           <label htmlFor="username" className="sr-only">Username</label>
-          <input
-            className="form-control"
-            type="text"
-            name="username"
-            id="form-username"
-            required
-            placeholder="Username"
-            onChange={e => this.setState({username: e.target.value})}
-            value={username}
-          />
+          <input ref={this.username} className="form-control" type="text" name="username" id="form-username" required placeholder="Username" />
         </div>
         <div className="form-group">
           <label htmlFor="password" className="sr-only">Password</label>
-          <input
-            ref={this.password}
-            className="form-control"
-            type="password"
-            name="password"
-            id="form-password"
-            required
-            placeholder="Password"
-            onChange={e => this.setState({password: e.target.value})}
-            value={password}
-          />
+          <input ref={this.password} className="form-control" type="password" name="password" id="form-password" required placeholder="Password" />
         </div>
         <button type="submit" className="btn" id="comment-submit">Login</button>
         <div id="notice"></div>

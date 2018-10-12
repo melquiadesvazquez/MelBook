@@ -4,7 +4,6 @@ import { Provider } from 'react-redux';
 import store, { history } from '../store';
 import App from './App';
 import Profile from './Profile';
-import Header from './Header';
 import NotFound from './NotFound';
 
 const Router = () => (

@@ -1,17 +1,32 @@
-import React, { Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 import User from "./User";
 
-const Content = props =>
-  <Fragment>
-    {Object.keys(props.users).map(key => (
-      <User
-        key={key}
-        index={key}
-        user={props.users[key]}
-      />
-    ))}
-  </Fragment>
+class Users extends Component {
+  render() {
+    /*
+    if (this.state.uid !== this.state.owner) {
+      return (
+        <div>
+          <p>Sorry you are not the owner!</p>
+        </div>
+      );
+    }
+    */
 
-export default Content;
+    return (
+      <Fragment>
+        {Object.keys(this.props.users).map(key => (
+          <User
+            key={key}
+            index={key}
+            user={this.props.users[key]}
+          />
+        ))}
+      </Fragment>
+    )
+  }
+}
+
+export default Users;
 
 

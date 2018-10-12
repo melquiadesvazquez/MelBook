@@ -646,8 +646,8 @@ ul.block > li {
 .sidebar-right p {
   background: #fff;
 }
-.sidebar-left article,
-.sidebar-right article {
+.sidebar-left section,
+.sidebar-right section {
   background: #fff;
   padding: 15px;
   margin-bottom: 30px;
@@ -764,15 +764,15 @@ ul.block > li {
 .comment footer .comment-author-name {
   font-weight: 600;
 }
-#comment-form {
+form.form {
   background: #fff;
   padding: 15px;
   margin-bottom: 30px;
 }
-#comment-form .form-group {
+form.form .form-group {
   margin-bottom: 1rem;
 }
-#comment-form .form-control {
+form.form .form-control {
   display: block;
   width: 100%;
   font-size: 1rem;
@@ -784,17 +784,17 @@ ul.block > li {
   border-bottom: 1px solid #adb5bd;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
-#comment-form .form-control focus {
+form.form .form-control focus {
   outline: 0;
   border-bottom-color: #212529;
 }
-#comment-form #notice {
+form.form .notice {
   width: 100%;
   color: #dc3545;
   padding-top: 7.5px;
   text-align: center;
 }
-#comment-form .btn {
+form.form .btn {
   display: inline-block;
   font-weight: 400;
   text-align: center;
@@ -814,6 +814,6 @@ ul.block > li {
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   cursor: pointer;
 }
-#comment-form .btn hover {
+form.form .btn hover {
   background-color: #1cc6e0;
 }

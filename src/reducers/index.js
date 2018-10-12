@@ -1,17 +1,8 @@
 import { combineReducers } from 'redux';
-import { routerReducer } from 'react-router-redux';
+import errorReducer from './errorReducer';
+import authReducer from './authReducer';
 
-/*
-import posts from './posts';
-import comments from './comments';
-*/
-
-const rootReducer = combineReducers({
-  /*
-  posts,
-  comments,
-  */
-  routing: routerReducer
+export default combineReducers({
+    errors: errorReducer,
+    auth: authReducer
 });
-
-export default rootReducer;
