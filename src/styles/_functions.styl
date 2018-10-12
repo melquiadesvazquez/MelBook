@@ -1,0 +1,14 @@
+calculateRem($sizeInPx)
+  ($sizeInPx / 16)+rem
+
+fontSize($size)
+  font-size $sizepx // Fallback in px
+  font-size calculateRem($size)
+
+@keyframes heartBeat
+  from
+    transform scale(1)
+  to
+    transform scale(1.1)
+
+
