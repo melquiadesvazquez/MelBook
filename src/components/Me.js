@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { getPosts } from '../actions/actionCreator';
 import User from "./User";
 
-class Profile extends Component {
+class Me extends Component {
   state = {
     user: {},
     errors: {}
@@ -13,15 +13,20 @@ class Profile extends Component {
   componentDidMount() {
     const {users} = this.props;
     const {username} = this.props.match.params;
-    let storedUser = localStorage.getItem('melbook:user') && JSON.parse(localStorage.getItem('melbook:user'));
+    let user = {};
+    let storedUser = localStorage.user && JSON.parse(localStorage.getItem('melbook:user'));
 
     if (storedUser && storedUser.login.username === username) {
-      this.setState({user: storedUser});
+      user = storedUser;
     }
     else {
-      this.setState({user: users[username]});
-      localStorage.setItem('melbook:user', JSON.stringify(users[username]));
+      user = users[username];
+      localStorage.setItem('melbook:user', JSON.stringify(user));
     }
+
+    this.setState({
+      user: user
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -33,6 +38,7 @@ class Profile extends Component {
   }
 
   render() {
+    //const {users} = this.props;
     return (
       <Fragment>
         <User
@@ -49,7 +55,6 @@ const mapStateToProps = (state) => ({
   errors: state.errors
 })
 
-//export default Profile;
-export default connect(mapStateToProps, { getPosts })(Profile);
+export default connect(mapStateToProps, { getPosts })(Me);
 
 

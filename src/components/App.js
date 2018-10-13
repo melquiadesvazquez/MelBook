@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
-import { Router, Route } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store, { history } from '../store';
-import { setCurrentUser, logoutUser } from '../actions/authentication';
+import { setCurrentUser, logoutUser } from '../actions/actionCreator';
 import Layout from '../components/Layout';
-import LoginForm from '../components/LoginForm';
-import Home from '../components/Home';
+import Login from '../components/Login';
+import Users from '../components/Users';
+import Profile from '../components/Profile';
+import Requests from '../components/Requests';
+import NotFound from '../components/NotFound';
 
-if(localStorage.uuid) {
-  store.dispatch(setCurrentUser(localStorage.uuid));
+if(localStorage.getItem('melbook:uuid')) {
+  store.dispatch(setCurrentUser(localStorage.getItem('melbook:uuid')));
 }
 else {
   store.dispatch(logoutUser(history));
@@ -18,15 +21,18 @@ class App extends Component {
   render() {
     return (
       <Provider store = {store}>
-        <Router history={history}>
-            <Layout>
-              <Route exact path="/" component={Users} />
-              <Route exact path="/login" component={Login} />
-              <Route path="/:uid" component={User}/>
+        <Router history = {history}>
+          <Layout>
+            <Switch>
+              <Route exact path="/" component={Login} />
+              <Route exact path="/users" component={Users} />
+              <Route path="/users/:username" component={Profile}/>
+              <Route path="/requests" component={Requests} />
               <Route component={NotFound} />
-            </Layout>
-          </Router>
-        </Provider>
+            </Switch>
+          </Layout>
+        </Router>
+      </Provider>
     );
   }
 }

@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import Header from "./Header";
-import Aside from "./Aside";
 import Footer from "./Footer";
 
 const Layout = props => {
@@ -9,9 +8,7 @@ const Layout = props => {
       <Header />
       <div id="main" className="box">
         <div className="box-row">
-          <div className="box-col container wide">
-            {props.children}
-          </div>
+          {props.children}
         </div>
       </div>
       <Footer />

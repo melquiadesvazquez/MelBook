@@ -8,13 +8,13 @@ class Main extends React.Component {
       isAuthenticated: false,
       user: {}
     },
-    users: [],
-    posts: [],
-    errors: null
+    users: {},
+    posts: {},
+    errors: {}
   };
 
   componentDidMount() {
-    //const localStorageRef = localStorage.getItem(params.uid);
+    //const localStorageRef = localStorage.getItem(params.uuid);
     /*
     firebase.auth().onAuthStateChanged(user => {
       if (user) {

@@ -1,98 +1,90 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { login } from '../../redux/access';
+import { loginUser } from '../actions/actionCreator';
 
-class Login extends React.Component {
+class Login extends Component {
   state = {
-    uid: null,
-    users: [],
-    posts: []
+    username: 'angryostrich988',
+    password: 'r2d2',
+    errors: {}
   };
 
-  authHandler = async (authData) => {
-    this.setState({
-      uid: authData.user.uid
-    });
-
-    this.ref = base.syncState(`users`, {
-      context: this,
-      state: 'users'
-    });
+  handleChange = event => {
+    this.setState({[event.currentTarget.name]: event.target.value})
   };
 
-  authenticate = (provider) => {
-    const authProvider = new firebase.auth[`${provider}AuthProvider`]();
-    firebaseApp
-      .auth()
-      .signInWithPopup(authProvider)
-      .then(this.authHandler);
-  };
-
-  login = event => {
+  handleSubmit = event => {
     event.preventDefault();
-    let { username, password } = this.state;
-    this.props.login(email, password);
-    this.setState({
-      email: '',
-      password: ''
-    });
+    const user = {
+      username: this.state.username,
+      password: this.state.password,
+    }
+    this.props.loginUser(user);
   };
 
-  logout = async () => {
-    console.log('Logging out');
-    await firebase.auth().signOut();
-    this.setState({uid: null});
-    base.removeBinding(this.ref);
-  };
+  componentDidMount() {
+    if(this.props.auth.isAuthenticated) {
+      this.props.history.push('/users');
+    }
+  }
 
-  render() {
-    const logout = <button onClick={this.logout}>Log Out!</button>
-    let {email, password} = this.state;
-    let {isLoginPending, isLoginSuccess, loginError} = this.props;
-
-    if (!this.state.uid) {
-      return <Login authenticate={this.authenticate} />
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.auth.isAuthenticated) {
+      this.props.history.push('/users')
     }
 
+    if(nextProps.errors) {
+      this.setState({
+          errors: nextProps.errors
+      });
+    }
+  }
+
+  render() {
+    const { username, password, errors } = this.state;
     return (
-      <form className="form" method="POST" onSubmit={this.login}>
+      <form className="form box-col container" method="POST" onSubmit={this.handleSubmit}>
         <div className="form-group">
           <label htmlFor="username" className="sr-only">Username</label>
           <input
             className="form-control"
             type="text"
             name="username"
-            id="form-username"
             required
             placeholder="Username"
-            onChange={e => this.setState({username: e.target.value})}
+            onChange={this.handleChange}
             value={username}
           />
         </div>
         <div className="form-group">
           <label htmlFor="password" className="sr-only">Password</label>
           <input
-            ref={this.password}
             className="form-control"
             type="password"
             name="password"
-            id="form-password"
             required
             placeholder="Password"
-            onChange={e => this.setState({password: e.target.value})}
+            onChange={this.handleChange}
             value={password}
           />
         </div>
-        <button type="submit" className="btn" id="comment-submit">Login</button>
-        <div id="notice"></div>
+        <button type="submit" className="btn">Login</button>
+        {errors && (<div className="notice">{errors.msg}</div>)}
       </form>
     );
   };
 };
 
 Login.propTypes = {
-  authenticate: PropTypes.func.isRequired
+  loginUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
 }
 
-export default Login;
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  errors: state.errors
+})
+
+export default connect(mapStateToProps, { loginUser })(Login);

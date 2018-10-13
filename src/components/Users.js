@@ -1,25 +1,34 @@
 import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { getUsers } from '../actions/actionCreator';
 import User from "./User";
 
 class Users extends Component {
-  render() {
-    /*
-    if (this.state.uid !== this.state.owner) {
-      return (
-        <div>
-          <p>Sorry you are not the owner!</p>
-        </div>
-      );
-    }
-    */
+  state = {
+    errors: {}
+  };
 
+  componentDidMount() {
+    this.props.getUsers();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.errors) {
+      this.setState({
+          errors: nextProps.errors
+      });
+    }
+  }
+
+  render() {
+    const {users} = this.props;
     return (
       <Fragment>
-        {Object.keys(this.props.users).map(key => (
+        {Object.keys(users).map((username) => (
           <User
-            key={key}
-            index={key}
-            user={this.props.users[key]}
+            key={username}
+            user={users[username]}
           />
         ))}
       </Fragment>
@@ -27,6 +36,11 @@ class Users extends Component {
   }
 }
 
-export default Users;
+const mapStateToProps = (state) => ({
+  users: state.users,
+  errors: state.errors
+})
+
+export default connect(mapStateToProps, { getUsers })(Users);
 
 
