@@ -10,22 +10,7 @@ class Requests extends Component {
   };
 
   componentDidMount() {
-    const {users} = this.props;
-    const {username} = this.props.match.params;
-    let user = {};
-    let storedUser = localStorage.user && JSON.parse(localStorage.getItem('melbook:user'));
-
-    if (storedUser && storedUser.login.username === username) {
-      user = storedUser;
-    }
-    else {
-      user = users[username];
-      localStorage.setItem('melbook:user', JSON.stringify(user));
-    }
-
-    this.setState({
-      user: user
-    });
+    this.props.getRequests();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -37,13 +22,15 @@ class Requests extends Component {
   }
 
   render() {
-    //const {users} = this.props;
+    const {requests} = this.props;
     return (
       <Fragment>
-        <User
-          key={this.props.match.params.username}
-          user={this.state.user}
-        />
+        {/*Object.keys(requests).map((username) => (
+          <User
+            key={username}
+            user={users[username]}
+          />
+        ))*/}
       </Fragment>
     )
   }
@@ -51,6 +38,7 @@ class Requests extends Component {
 
 const mapStateToProps = (state) => ({
   users: state.users,
+  requests: state.requests,
   errors: state.errors
 })
 

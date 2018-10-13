@@ -14,7 +14,7 @@ class Me extends Component {
     const {users} = this.props;
     const {username} = this.props.match.params;
     let user = {};
-    let storedUser = localStorage.user && JSON.parse(localStorage.getItem('melbook:user'));
+    let storedUser = localStorage.hasOwnProperty('melbook:user') && JSON.parse(localStorage.getItem('melbook:user'));
 
     if (storedUser && storedUser.login.username === username) {
       user = storedUser;

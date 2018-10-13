@@ -1,9 +1,17 @@
 import { SET_REQUESTS } from '../actions/types';
 
-export default function (state = {}, action) {
+const initialState = {
+  approved: [],
+  pending: []
+}
+
+export default function (state = initialState, action) {
   switch (action.type) {
     case SET_REQUESTS:
-      return action.payload
+    return {
+      ...state,
+      ...action.payload
+    }
     default:
       return state;
   }

@@ -13,7 +13,7 @@ class Profile extends Component {
   componentDidMount() {
     const {users} = this.props;
     const {username} = this.props.match.params;
-    let storedUser = localStorage.getItem('melbook:user') && JSON.parse(localStorage.getItem('melbook:user'));
+    const storedUser = localStorage.hasOwnProperty('melbook:user') && JSON.parse(localStorage.getItem('melbook:user'));
 
     if (storedUser && storedUser.login.username === username) {
       this.setState({user: storedUser});

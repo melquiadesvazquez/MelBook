@@ -10,12 +10,20 @@ import Profile from '../components/Profile';
 import Requests from '../components/Requests';
 import NotFound from '../components/NotFound';
 
-if(localStorage.getItem('melbook:uuid')) {
+if(localStorage.hasOwnProperty('melbook:uuid')) {
   store.dispatch(setCurrentUser(localStorage.getItem('melbook:uuid')));
 }
 else {
   store.dispatch(logoutUser(history));
 }
+console.log("-----------")
+console.log("-----------")
+console.log("-----------")
+console.log("-----------")
+console.log("-----------")
+console.log("-----------")
+console.log("-----------")
+console.log("-----------")
 
 class App extends Component {
   render() {

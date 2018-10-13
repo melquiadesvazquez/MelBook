@@ -6,10 +6,11 @@ import rootReducer from './reducers';
 export const history = createHistory();
 
 const inititalState = {};
+const enhance = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 const store = createStore(
         rootReducer,
         inititalState,
-        compose(applyMiddleware(thunk),
-                window.__REDUX_DEVTOOLS_EXTENSION__&& window.__REDUX_DEVTOOLS_EXTENSION__()));
+        enhance(applyMiddleware(thunk))
+)
 
 export default store;

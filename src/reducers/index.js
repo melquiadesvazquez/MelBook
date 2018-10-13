@@ -6,7 +6,7 @@ import usersReducer from './usersReducer';
 import postsReducer from './postsReducer';
 import requestsReducer from './requestsReducer';
 
-const rootReducer = combineReducers({
+export default combineReducers({
     errors: errorReducer,
     auth: authReducer,
     users: usersReducer,
@@ -14,5 +14,3 @@ const rootReducer = combineReducers({
     requests: requestsReducer,
     routing: routerReducer
 });
-
-export default rootReducer;

@@ -1,4 +1,5 @@
 import { GET_ERRORS, SET_CURRENT_USER, SET_USERS, SET_POSTS, SET_REQUESTS } from './types';
+import sampleRequests from '../data/sample-requests';
 
 export const loginUser = (user) => dispatch => {
   fetch(process.env.REACT_APP_API_AUTH_URL)
@@ -61,17 +62,16 @@ export const getPosts = () => dispatch => {
   }
 }
 
-export const getRequests = () => dispatch => {
-  const foundPosts = [];
-  if (foundPosts.length > 0) {
-    dispatch(setPosts(foundPosts[0]));
+export const getRequests = (uuid) => dispatch => {
+  let foundRequests = sampleRequests;
+  if (localStorage.hasOwnProperty('melbook:requests')) {
+    foundRequests = JSON.parse(localStorage.getItem('melbook:requests'));
   }
-  else {
-    dispatch({
-      type: GET_ERRORS,
-      payload: {msg:'Posts not found'}
-    });
-  }
+  console.log(uuid)
+  dispatch(setRequests({
+    approved: foundRequests.approved[uuid],
+    pending: foundRequests.pending[uuid],
+  }));
 }
 
 export const setCurrentUser = uuid => {
@@ -95,7 +95,7 @@ export const setPosts = posts => {
   }
 }
 
-export const setRequest = requests => {
+export const setRequests = requests => {
   return {
     type: SET_REQUESTS,
     payload: requests
