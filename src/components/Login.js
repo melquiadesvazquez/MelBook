@@ -44,34 +44,38 @@ class Login extends Component {
   render() {
     const { username, password, errors } = this.state;
     return (
-      <form className="form box-col container" method="POST" onSubmit={this.handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="username" className="sr-only">Username</label>
-          <input
-            className="form-control"
-            type="text"
-            name="username"
-            required
-            placeholder="Username"
-            onChange={this.handleChange}
-            value={username}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password" className="sr-only">Password</label>
-          <input
-            className="form-control"
-            type="password"
-            name="password"
-            required
-            placeholder="Password"
-            onChange={this.handleChange}
-            value={password}
-          />
-        </div>
-        <button type="submit" className="btn">Login</button>
-        {errors && (<div className="notice">{errors.msg}</div>)}
-      </form>
+      <div className="box-row">
+        <form className="form box-col container" method="POST" onSubmit={this.handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="username" className="sr-only">Username</label>
+            <input
+              className="form-control"
+              type="text"
+              id="username"
+              name="username"
+              required
+              placeholder="Username"
+              onChange={this.handleChange}
+              value={username}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="password" className="sr-only">Password</label>
+            <input
+              className="form-control"
+              type="password"
+              id="password"
+              name="password"
+              required
+              placeholder="Password"
+              onChange={this.handleChange}
+              value={password}
+            />
+          </div>
+          <button type="submit" className="btn">Login</button>
+          {errors && (<div className="notice">{errors.msg}</div>)}
+        </form>
+      </div>
     );
   };
 };

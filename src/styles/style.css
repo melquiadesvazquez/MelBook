@@ -1,6 +1,6 @@
 *,
-* before,
-* after {
+*:before,
+*:after {
   box-sizing: border-box;
 }
 html {
@@ -355,6 +355,15 @@ template {
     max-width: 20%;
     order: 2;
   }
+  .box .box-row .box-col.container {
+    flex: 0 0 20%;
+    max-width: 20%;
+    order: 2;
+  }
+  .box .box-row .box-col.container.wide {
+    flex: 0 0 80%;
+    max-width: 80%;
+  }
 }
 @media screen and (min-width: 1200px) {
   .box .box-row .box-col.sidebar-right {
@@ -364,10 +373,6 @@ template {
   .box .box-row .box-col.container {
     flex: 0 0 20%;
     max-width: 20%;
-  }
-  .box .box-row .box-col.container.wide {
-    flex: 0 0 80%;
-    max-width: 80%;
   }
 }
 h1,
@@ -394,12 +399,12 @@ img {
 .text-right {
   text-align: right;
 }
-.block before,
-.block after {
+.block:before,
+.block:after {
   content: "";
   display: table;
 }
-.block after {
+.block:after {
   clear: both;
 }
 .block {
@@ -439,6 +444,30 @@ ul.block > li {
   -webkit-clip-path: inset(50%);
   clip-path: inset(50%);
   border: 0;
+}
+.btn {
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-color: #000;
+  color: #fff;
+  border: 1px solid transparent;
+  padding: 7.5px;
+  width: 100%;
+  font-size: 1rem;
+  line-height: 1.5;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+.btn:hover {
+  background-color: #1cc6e0;
 }
 #header {
   background: #fff;
@@ -513,7 +542,7 @@ ul.block > li {
 #menuTop.active ul {
   display: block;
 }
-#menuTop.active #menuBtn .fa-bars before {
+#menuTop.active #menuBtn .fa-bars:before {
   content: "\f00d";
 }
 #menuTop ul {
@@ -549,7 +578,7 @@ ul.block > li {
   color: #000;
   font-family: "Poppins", sans-serif;
 }
-#menuTop a hover {
+#menuTop a:hover {
   color: #1cc6e0;
 }
 #menuTop a.menu-active {
@@ -600,7 +629,7 @@ ul.block > li {
 #menuSearch ul li a {
   display: block;
 }
-#menuSearch ul li a hover {
+#menuSearch ul li a:hover {
   color: #1cc6e0;
 }
 #footer {
@@ -658,27 +687,9 @@ ul.block > li {
   margin-bottom: 30px;
 }
 .post {
-  display: flex;
-  flex-wrap: wrap;
   margin-bottom: 30px;
-}
-.post .post-col {
-  position: relative;
-  width: 100%;
-}
-.post .post-col.post-body {
   background: #fff;
-  order: 2;
-  flex: 0 0 80%;
-  max-width: 80%;
   padding: 15px;
-}
-@media screen and (min-width: 992px) {
-  .post .post-col.post-body {
-    flex: 0 0 70%;
-    max-width: 70%;
-    order: 2;
-  }
 }
 .post .post-title a {
   text-decoration: none;
@@ -691,30 +702,14 @@ ul.block > li {
   text-decoration: none;
   font-weight: 700;
 }
-.post .post-link after {
+.post .post-link:after {
   content: " \21C1";
 }
-.post .text-right .post-link before {
+.post .text-right .post-link:before {
   content: "\21BD ";
 }
-.post .text-right .post-link after {
+.post .text-right .post-link:after {
   content: "";
-}
-.post header,
-.post footer {
-  padding: 0;
-}
-.post footer {
-  font-size: 0.875rem;
-}
-.post footer p {
-  padding: 3px 0 0;
-}
-.post footer .post-author-name {
-  font-weight: 600;
-}
-#posts {
-  background: none;
 }
 .post-detail .post-col,
 .post-detail .post-col.post-body {
@@ -729,7 +724,7 @@ ul.block > li {
   cursor: pointer;
   transition: color 0.5s ease;
 }
-.post-detail .post-likes hover {
+.post-detail .post-likes:hover {
   color: #1cc6e0;
 }
 .post-detail .post-likes.active {
@@ -834,27 +829,4 @@ form.form .notice {
   color: #dc3545;
   padding-top: 7.5px;
   text-align: center;
-}
-form.form .btn {
-  display: inline-block;
-  font-weight: 400;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  background-color: #000;
-  color: #fff;
-  border: 1px solid transparent;
-  padding: 7.5px;
-  width: 100%;
-  font-size: 1rem;
-  line-height: 1.5;
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  cursor: pointer;
-}
-form.form .btn hover {
-  background-color: #1cc6e0;
 }

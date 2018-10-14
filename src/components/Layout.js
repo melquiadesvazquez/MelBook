@@ -7,9 +7,7 @@ const Layout = props => {
     <Fragment>
       <Header />
       <div id="main" className="box">
-        <div className="box-row">
-          {props.children}
-        </div>
+        {props.children}
       </div>
       <Footer />
     </Fragment>

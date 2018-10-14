@@ -1,32 +1,33 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getPosts } from '../actions/actionCreator';
+import { getPosts, addPost, removePost } from '../actions/actionCreator';
 import User from "./User";
+import Post from "./Post";
+import AddPost from "./AddPost";
+import {isEmpty} from '../helpers';
 
 class Me extends Component {
   state = {
     user: {},
+    posts: {},
     errors: {}
   };
 
   componentDidMount() {
     const {users} = this.props;
-    const {username} = this.props.match.params;
-    let user = {};
-    let storedUser = localStorage.hasOwnProperty('melbook:user') && JSON.parse(localStorage.getItem('melbook:user'));
+    const uuid = localStorage.hasOwnProperty('melbook:uuid') && localStorage.getItem('melbook:uuid');
+    const storedUser = localStorage.hasOwnProperty('melbook:user') && JSON.parse(localStorage.getItem('melbook:user'));
 
-    if (storedUser && storedUser.login.username === username) {
-      user = storedUser;
+    if (storedUser && storedUser.login.uuid === uuid) {
+      this.setState({user: storedUser});
     }
     else {
-      user = users[username];
-      localStorage.setItem('melbook:user', JSON.stringify(user));
+      this.setState({user: users[uuid]});
+      localStorage.setItem('melbook:user', JSON.stringify(users[uuid]));
     }
 
-    this.setState({
-      user: user
-    });
+    this.props.getPosts(uuid);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -38,23 +39,46 @@ class Me extends Component {
   }
 
   render() {
-    //const {users} = this.props;
+    const {uuid} = !isEmpty(this.state.user) && !isEmpty(this.state.user.login) && this.state.user.login;
+    const {posts} = !isEmpty(this.props.posts) && this.props;
     return (
-      <Fragment>
-        <User
-          key={this.props.match.params.username}
-          user={this.state.user}
-        />
-      </Fragment>
+      <div className="box-row">
+        <div className="box-col container">
+          <User
+            key={this.props.match.params.uuid}
+            user={this.state.user}
+            type="me"
+          />
+        </div>
+        <div className="box-col container wide">
+          {posts && posts.map((post, i) => (
+            <Post
+              key={i}
+              index={`${i}`}
+              post={post}
+              removePost={this.props.removePost}
+            />
+          ))}
+          {uuid &&
+            <AddPost
+              uuid={uuid}
+              addPost={this.props.addPost}
+            />
+          }
+
+        </div>
+      </div>
     )
   }
 }
 
 const mapStateToProps = (state) => ({
   users: state.users,
+  posts: state.posts,
   errors: state.errors
 })
 
-export default connect(mapStateToProps, { getPosts })(Me);
+//export default Profile;
+export default connect(mapStateToProps, { getPosts, addPost, removePost })(Me);
 
 

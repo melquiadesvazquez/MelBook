@@ -10,7 +10,10 @@ class Requests extends Component {
   };
 
   componentDidMount() {
-    this.props.getRequests();
+    if(localStorage.hasOwnProperty('melbook:uuid')) {
+      this.props.getRequests(localStorage.getItem('melbook:uuid'));
+    }
+
   }
 
   componentWillReceiveProps(nextProps) {
@@ -22,15 +25,31 @@ class Requests extends Component {
   }
 
   render() {
-    const {requests} = this.props;
+    const {requests, users} = this.props;
     return (
       <Fragment>
-        {/*Object.keys(requests).map((username) => (
-          <User
-            key={username}
-            user={users[username]}
-          />
-        ))*/}
+        <h2>Approved</h2>
+        <div className="box-row">
+          {users.length && requests.approved && requests.approved.map((uuid) => (
+            <div key={uuid} className="box-col container">
+              <User
+                user={users[uuid]}
+                type="deny"
+              />
+            </div>
+          ))}
+        </div>
+        <h2>Pending</h2>
+        <div className="box-row">
+          {users.length && requests.pending && requests.pending.map((uuid) => (
+            <div key={uuid} className="box-col container">
+              <User
+                user={users[uuid]}
+                type="approve"
+              />
+            </div>
+          ))}
+        </div>
       </Fragment>
     )
   }

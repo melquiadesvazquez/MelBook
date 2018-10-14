@@ -12,15 +12,15 @@ class Profile extends Component {
 
   componentDidMount() {
     const {users} = this.props;
-    const {username} = this.props.match.params;
+    const {uuid} = this.props.match.params;
     const storedUser = localStorage.hasOwnProperty('melbook:user') && JSON.parse(localStorage.getItem('melbook:user'));
 
-    if (storedUser && storedUser.login.username === username) {
+    if (storedUser && storedUser.login.uuid === uuid) {
       this.setState({user: storedUser});
     }
     else {
-      this.setState({user: users[username]});
-      localStorage.setItem('melbook:user', JSON.stringify(users[username]));
+      this.setState({user: users[uuid]});
+      localStorage.setItem('melbook:user', JSON.stringify(users[uuid]));
     }
   }
 
@@ -34,12 +34,15 @@ class Profile extends Component {
 
   render() {
     return (
-      <Fragment>
-        <User
-          key={this.props.match.params.username}
-          user={this.state.user}
-        />
-      </Fragment>
+      <div className="box-row">
+        <div className="box-col container">
+          <User
+            key={this.props.match.params.uuid}
+            user={this.state.user}
+            type="profile"
+          />
+        </div>
+      </div>
     )
   }
 }

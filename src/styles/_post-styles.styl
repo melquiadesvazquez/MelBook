@@ -1,23 +1,7 @@
 .post
-  display  flex
-  flex-wrap  wrap
   margin-bottom  $grid-gutter-width
-
-  .post-col
-    position  relative
-    width  100%
-
-    &.post-body
-      background  $white
-      order  2
-      flex  0 0 80%
-      max-width 80%
-      padding  ($grid-gutter-width / 2)
-
-      +min-screen($breakpoint-tablet-landscape)
-          flex  0 0 70%
-          max-width  70%
-          order  2
+  background  $white
+  padding ($grid-gutter-width / 2)
 
   .post-title
     a
@@ -34,32 +18,18 @@
     text-decoration  $link-decoration
     font-weight  $font-weight-bold
 
-    & after
+    &:after
       content  " \21C1"
 
 
 
-  .text-right .post-link before
+  .text-right .post-link:before
     content  "\21BD "
 
 
-  .text-right .post-link after
+  .text-right .post-link:after
     content  ""
 
-
-  header, footer
-    padding  0
-
-
-  footer
-    font-size  $font-size-sm
-
-    p
-      padding  3px 0 0
-
-
-    .post-author-name
-      font-weight  600
 
 
 

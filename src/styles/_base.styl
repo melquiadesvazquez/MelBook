@@ -21,11 +21,11 @@ img
 .text-right
   text-align right;
 
-.block before, .block after
+.block:before, .block:after
   content "";
   display table;
 
-.block after
+.block:after
   clear both;
 
 .block
@@ -63,3 +63,27 @@ ul.block
   -webkit-clip-path inset(50%);
   clip-path inset(50%);
   border 0;
+
+.btn
+  display  inline-block
+  font-weight  $font-weight-normal
+  text-align  center
+  white-space  nowrap
+  vertical-align  middle
+  -webkit-user-select  none
+  -moz-user-select  none
+  -ms-user-select  none
+  user-select  none
+  background-color  $black
+  color  $white
+  border  1px solid transparent
+  padding  ($grid-gutter-width / 4)
+  width  100%
+  font-size  $font-size-base
+  line-height  $line-height-base
+  transition  color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out
+  cursor  pointer
+  margin-top 1rem
+
+  &:hover
+    background-color  $link-hover-color

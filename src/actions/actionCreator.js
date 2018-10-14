@@ -1,5 +1,12 @@
-import { GET_ERRORS, SET_CURRENT_USER, SET_USERS, SET_POSTS, SET_REQUESTS } from './types';
+import {GET_ERRORS,
+        SET_CURRENT_USER,
+        SET_USERS,
+        SET_POSTS,
+        ADD_POST,
+        REMOVE_POST,
+        SET_REQUESTS} from './types';
 import sampleRequests from '../data/sample-requests';
+import samplePosts from '../data/sample-posts';
 
 export const loginUser = (user) => dispatch => {
   fetch(process.env.REACT_APP_API_AUTH_URL)
@@ -26,12 +33,25 @@ export const loginUser = (user) => dispatch => {
     });
 }
 
+export const logoutUser = (history) => dispatch => {
+  localStorage.removeItem('melbook:uuid');
+  dispatch(setCurrentUser({}));
+  history.push('/');
+}
+
+export const setCurrentUser = uuid => {
+  return {
+    type: SET_CURRENT_USER,
+    payload: uuid
+  }
+}
+
 export const getUsers = () => dispatch => {
   fetch(process.env.REACT_APP_API_DATA_URL)
     .then(response => response.json())
     .then(({results}) => {
       if (results.length > 0) {
-        const foundUsers = Object.assign({}, ...results.map((user) => ({[user.login.username]: user})))
+        const foundUsers = Object.assign({}, ...results.map((user) => ({[user.login.uuid]: user})))
         dispatch(setUsers(foundUsers));
       }
       else {
@@ -49,17 +69,34 @@ export const getUsers = () => dispatch => {
     });
 }
 
-export const getPosts = () => dispatch => {
-  const foundPosts = [];
-  if (foundPosts.length > 0) {
-    dispatch(setPosts(foundPosts[0]));
+export const setUsers = users => {
+  return {
+    type: SET_USERS,
+    payload: users
   }
-  else {
-    dispatch({
-      type: GET_ERRORS,
-      payload: {msg:'Posts not found'}
-    });
+}
+
+export const getPosts = (uuid) => dispatch => {
+  let foundPosts = samplePosts;
+  if (localStorage.hasOwnProperty('melbook:posts')) {
+    foundPosts = JSON.parse(localStorage.getItem('melbook:posts'));
   }
+  dispatch(setPosts(foundPosts[uuid]));
+}
+
+export const addPost = (uuid, post) => dispatch => {
+  dispatch({
+    type: ADD_POST,
+    uuid,
+    post
+  });
+};
+
+export const removePost = (index) => dispatch => {
+  dispatch({
+    type: REMOVE_POST,
+    index
+  });
 }
 
 export const getRequests = (uuid) => dispatch => {
@@ -67,25 +104,10 @@ export const getRequests = (uuid) => dispatch => {
   if (localStorage.hasOwnProperty('melbook:requests')) {
     foundRequests = JSON.parse(localStorage.getItem('melbook:requests'));
   }
-  console.log(uuid)
   dispatch(setRequests({
     approved: foundRequests.approved[uuid],
     pending: foundRequests.pending[uuid],
   }));
-}
-
-export const setCurrentUser = uuid => {
-  return {
-    type: SET_CURRENT_USER,
-    payload: uuid
-  }
-}
-
-export const setUsers = users => {
-  return {
-    type: SET_USERS,
-    payload: users
-  }
 }
 
 export const setPosts = posts => {
@@ -99,27 +121,5 @@ export const setRequests = requests => {
   return {
     type: SET_REQUESTS,
     payload: requests
-  }
-}
-
-export const logoutUser = (history) => dispatch => {
-  localStorage.removeItem('melbook:uuid');
-  dispatch(setCurrentUser({}));
-  history.push('/');
-}
-
-// add post
-export function addPost(author, post) {
-  return {
-    type: 'ADD_POST',
-    author,
-    post
-  }
-}
-
-// remove post
-export function removePost(postId) {
-  return {
-    type: 'REMOVE_POST'
   }
 }

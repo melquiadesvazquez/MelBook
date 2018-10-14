@@ -24,14 +24,15 @@ class Users extends Component {
   render() {
     const {users} = this.props;
     return (
-      <Fragment>
-        {Object.keys(users).map((username) => (
-          <User
-            key={username}
-            user={users[username]}
-          />
+      <div className="box-row">
+        {Object.keys(users).map((uuid) => (
+          <div key={uuid} className="box-col container">
+            <User
+              user={users[uuid]}
+            />
+          </div>
         ))}
-      </Fragment>
+      </div>
     )
   }
 }

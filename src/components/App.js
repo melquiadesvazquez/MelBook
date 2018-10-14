@@ -5,6 +5,7 @@ import store, { history } from '../store';
 import { setCurrentUser, logoutUser } from '../actions/actionCreator';
 import Layout from '../components/Layout';
 import Login from '../components/Login';
+import Me from '../components/Me';
 import Users from '../components/Users';
 import Profile from '../components/Profile';
 import Requests from '../components/Requests';
@@ -16,14 +17,6 @@ if(localStorage.hasOwnProperty('melbook:uuid')) {
 else {
   store.dispatch(logoutUser(history));
 }
-console.log("-----------")
-console.log("-----------")
-console.log("-----------")
-console.log("-----------")
-console.log("-----------")
-console.log("-----------")
-console.log("-----------")
-console.log("-----------")
 
 class App extends Component {
   render() {
@@ -33,8 +26,9 @@ class App extends Component {
           <Layout>
             <Switch>
               <Route exact path="/" component={Login} />
+              <Route exact path="/me" component={Me} />
               <Route exact path="/users" component={Users} />
-              <Route path="/users/:username" component={Profile}/>
+              <Route path="/users/:uuid" component={Profile}/>
               <Route path="/requests" component={Requests} />
               <Route component={NotFound} />
             </Switch>
