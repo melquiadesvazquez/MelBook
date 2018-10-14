@@ -23,7 +23,7 @@ class Post extends React.Component {
             <div className="post-text">{Parser(post.content)}</div>
           </header>
           <footer>
-            <button className="btn" onClick={() => this.props.removePost(this.props.index)}>Delete post</button>
+            <button className="btn" onClick={() => this.props.removePost(this.props.uuid, this.props.index)}>Delete post</button>
           </footer>
         </div>
       </article>

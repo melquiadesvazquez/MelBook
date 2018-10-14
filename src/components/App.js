@@ -10,15 +10,29 @@ import Users from '../components/Users';
 import Profile from '../components/Profile';
 import Requests from '../components/Requests';
 import NotFound from '../components/NotFound';
-
-if(localStorage.hasOwnProperty('melbook:uuid')) {
-  store.dispatch(setCurrentUser(localStorage.getItem('melbook:uuid')));
-}
-else {
-  store.dispatch(logoutUser(history));
-}
+// import base from "../base";
 
 class App extends Component {
+  componentDidMount() {
+    if(localStorage.hasOwnProperty('melbook:uuid')) {
+      store.dispatch(setCurrentUser(localStorage.getItem('melbook:uuid')));
+
+      /*
+      this.ref = base.syncState(`users`, {
+        context: this,
+        state: 'users'
+      });
+      */
+    }
+    else {
+      store.dispatch(logoutUser(history));
+    }
+  }
+
+  componentWillUnmount() {
+    // base.removeBinding(this.ref);
+  };
+
   render() {
     return (
       <Provider store = {store}>

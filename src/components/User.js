@@ -64,6 +64,7 @@ class User extends Component {
             <p>
               <UserButtons
                 uuid={login.uuid}
+                following={this.props.following}
                 followRequest={followRequest}
                 approveRequest={approveRequest}
                 denyRequest={denyRequest}

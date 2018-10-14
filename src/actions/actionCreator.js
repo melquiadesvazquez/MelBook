@@ -1,7 +1,7 @@
 import {GET_ERRORS,
         SET_CURRENT_USER,
-        SET_USERS,
-        SET_POSTS,
+        GET_USERS,
+        GET_POSTS,
         ADD_POST,
         REMOVE_POST,
         SET_REQUESTS,
@@ -10,6 +10,7 @@ import {GET_ERRORS,
         REMOVE_APPROVED_FOLLOWER} from './types';
 import sampleRequests from '../data/sample-requests';
 import samplePosts from '../data/sample-posts';
+import {mapUsers} from '../helpers';
 
 export const loginUser = (user) => dispatch => {
   fetch(process.env.REACT_APP_API_AUTH_URL)
@@ -50,48 +51,49 @@ export const setCurrentUser = uuid => {
 }
 
 export const getUsers = () => dispatch => {
-  fetch(process.env.REACT_APP_API_DATA_URL)
-    .then(response => response.json())
-    .then(({results}) => {
-      if (results.length > 0) {
-        const foundUsers = Object.assign({}, ...results.map((user) => ({[user.login.uuid]: user})))
-        dispatch(setUsers(foundUsers));
-      }
-      else {
-        dispatch({
-          type: GET_ERRORS,
-          payload: {msg:'Users not found'}
-        });
-      }
-    })
-    .catch(err => {
-      dispatch({
-          type: GET_ERRORS,
-          payload: err
-      });
+  if (localStorage.hasOwnProperty('melbook:users')) {
+    dispatch({
+      type: GET_USERS,
+      payload: JSON.parse(localStorage.getItem('melbook:users'))
     });
-}
-
-export const setUsers = users => {
-  return {
-    type: SET_USERS,
-    payload: users
+  }
+  else {
+    fetch(process.env.REACT_APP_API_DATA_URL)
+      .then(response => response.json())
+      .then(({results}) => {
+        if (results.length > 0) {
+          const foundUsers = mapUsers(results);
+          localStorage.setItem('melbook:users', JSON.stringify(foundUsers));
+          dispatch({
+            type: GET_USERS,
+            payload: foundUsers
+          });
+        }
+        else {
+          dispatch({
+            type: GET_ERRORS,
+            payload: {msg:'Users not found'}
+          });
+        }
+      })
+      .catch(err => {
+        dispatch({
+            type: GET_ERRORS,
+            payload: err
+        });
+      });
   }
 }
 
 export const getPosts = uuid => dispatch => {
-  let foundPosts = samplePosts;
-  if (localStorage.hasOwnProperty('melbook:posts')) {
-    foundPosts = JSON.parse(localStorage.getItem('melbook:posts'));
+  let foundPosts = samplePosts[uuid] || [];
+  if (localStorage.hasOwnProperty(`melbook:posts:${uuid}`)) {
+    foundPosts = JSON.parse(localStorage.getItem(`melbook:posts:${uuid}`));
   }
-  dispatch(setPosts(foundPosts[uuid]));
-}
-
-export const setPosts = posts => {
-  return {
-    type: SET_POSTS,
-    payload: posts
-  }
+  dispatch({
+    type: GET_POSTS,
+    payload: foundPosts
+  });
 }
 
 export const addPost = (uuid, post) => dispatch => {
@@ -102,44 +104,51 @@ export const addPost = (uuid, post) => dispatch => {
   });
 };
 
-export const removePost = index => dispatch => {
+export const removePost = (uuid, index) => dispatch => {
   dispatch({
     type: REMOVE_POST,
+    uuid,
     index
   });
 }
 
 export const getRequests = uuid => dispatch => {
-  let foundRequests = sampleRequests;
-  if (localStorage.hasOwnProperty('melbook:requests')) {
-    foundRequests = JSON.parse(localStorage.getItem('melbook:requests'));
+  let foundRequests = {
+    approved: sampleRequests.approved[uuid] || [],
+    pending: sampleRequests.pending[uuid] || [],
+  }
+  if (localStorage.hasOwnProperty(`melbook:requests:${uuid}`)) {
+    foundRequests = JSON.parse(localStorage.getItem(`melbook:requests:${uuid}`));
   }
   dispatch({
     type: SET_REQUESTS,
     payload: {
-      approved: foundRequests.approved[uuid],
-      pending: foundRequests.pending[uuid],
+      approved: foundRequests.approved,
+      pending: foundRequests.pending,
     }
   });
 }
 
-export const followRequest = uuid => dispatch => {
+export const followRequest = (following, follower) => dispatch => {
   dispatch({
     type: ADD_PENDING_FOLLOWER,
-    uuid
+    following,
+    follower
   });
 };
 
-export const approveRequest = uuid => dispatch => {
+export const approveRequest = (following, follower) => dispatch => {
   dispatch({
     type: ADD_APPROVED_FOLLOWER,
-    uuid
+    following,
+    follower
   });
 };
 
-export const denyRequest = uuid => dispatch => {
+export const denyRequest = (following, follower) => dispatch => {
   dispatch({
     type: REMOVE_APPROVED_FOLLOWER,
-    uuid
+    following,
+    follower
   });
 };

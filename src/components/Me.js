@@ -54,6 +54,7 @@ class Me extends Component {
               key={i}
               index={`${i}`}
               post={post}
+              uuid={uuid}
               removePost={this.props.removePost}
             />
           ))}

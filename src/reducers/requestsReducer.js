@@ -9,20 +9,27 @@ const initialState = {
 }
 
 export default function (state = initialState, action) {
-  const requests = state;
+  let requests = state;
   switch (action.type) {
     case SET_REQUESTS:
       return action.payload;
     case ADD_PENDING_FOLLOWER:
-      requests.pending = requests.pending.concat([action.uuid])
-      requests.approved = requests.approved.filter(uuid => uuid !== action.uuid);
+      requests = {
+        approved: requests.approved.filter(uuid => uuid !== action.follower),
+        pending: requests.pending.concat([action.follower])
+      }
+      localStorage.setItem(`melbook:posts:${action.following}`, JSON.stringify(requests));
       return {...requests};
     case ADD_APPROVED_FOLLOWER:
-      requests.approved = requests.approved.concat([action.uuid])
-      requests.pending = requests.pending.filter(uuid => uuid !== action.uuid);
+      requests = {
+        approved: requests.approved.concat([action.follower]),
+        pending: requests.pending.filter(uuid => uuid !== action.follower)
+      }
+      localStorage.setItem(`melbook:posts:${action.following}`, JSON.stringify(requests));
       return {...requests};
     case REMOVE_APPROVED_FOLLOWER:
-      requests.approved = requests.approved.filter(uuid => uuid !== action.uuid);
+      requests.approved = requests.approved.filter(uuid => uuid !== action.follower);
+      localStorage.setItem(`melbook:posts:${action.following}`, JSON.stringify(requests));
       return {...requests};
     default:
       return state;

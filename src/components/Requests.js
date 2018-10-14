@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getRequests, followRequest, approveRequest, denyRequest } from '../actions/actionCreator';
+import { getUsers, getRequests, followRequest, approveRequest, denyRequest } from '../actions/actionCreator';
 import User from "./User";
 import {isEmpty} from '../helpers';
 class Requests extends Component {
@@ -10,6 +10,7 @@ class Requests extends Component {
   };
 
   componentDidMount() {
+    this.props.getUsers();
     if(localStorage.hasOwnProperty('melbook:uuid')) {
       this.props.getRequests(localStorage.getItem('melbook:uuid'));
     }
@@ -24,6 +25,7 @@ class Requests extends Component {
   }
 
   render() {
+    const uuid = localStorage.hasOwnProperty('melbook:uuid') && localStorage.getItem('melbook:uuid');
     const {users} = !isEmpty(this.props.users) && this.props;
     const {approved, pending} = !isEmpty(this.props.requests) && this.props.requests;
     return (
@@ -34,6 +36,7 @@ class Requests extends Component {
             <div key={uuid} className="box-col container">
               <User
                 user={users[uuid]}
+                following={uuid}
                 type="deny"
                 denyRequest={this.props.denyRequest}
               />
@@ -46,6 +49,7 @@ class Requests extends Component {
             <div key={uuid} className="box-col container">
               <User
                 user={users[uuid]}
+                following={uuid}
                 type="approve"
                 approveRequest={this.props.approveRequest}
               />
@@ -63,6 +67,6 @@ const mapStateToProps = (state) => ({
   errors: state.errors
 })
 
-export default connect(mapStateToProps, { getRequests, followRequest, approveRequest, denyRequest })(Requests);
+export default connect(mapStateToProps, { getUsers, getRequests, followRequest, approveRequest, denyRequest })(Requests);
 
 

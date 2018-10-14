@@ -22,6 +22,7 @@ class Users extends Component {
   }
 
   render() {
+    const uuid = localStorage.hasOwnProperty('melbook:uuid') && localStorage.getItem('melbook:uuid');
     const {users} = this.props;
     return (
       <div className="box-row">
@@ -29,6 +30,7 @@ class Users extends Component {
           <div key={uuid} className="box-col container">
             <User
               user={users[uuid]}
+              following={uuid}
               followRequest={this.props.followRequest}
             />
           </div>

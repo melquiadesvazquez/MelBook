@@ -13,7 +13,7 @@ class Button extends Component {
 
 class UserButtons extends Component {
   render() {
-    const {uuid} = this.props;
+    const {uuid, following} = this.props;
 
     switch(this.props.type) {
       case 'deny':
@@ -27,7 +27,7 @@ class UserButtons extends Component {
       default:
         return (
           <Fragment>
-            <Button uuid={uuid} request={this.props.followRequest} text="Follow" />
+            <Button uuid={uuid} following={following} request={this.props.followRequest} text="Follow" />
             <Link className="btn" to={`/users/${uuid}`}>Read</Link>
           </Fragment>
         );
