@@ -25,7 +25,7 @@ class Requests extends Component {
   }
 
   render() {
-    const uuid = localStorage.hasOwnProperty('melbook:uuid') && localStorage.getItem('melbook:uuid');
+    const following = localStorage.hasOwnProperty('melbook:uuid') && localStorage.getItem('melbook:uuid');
     const {users} = !isEmpty(this.props.users) && this.props;
     const {approved, pending} = !isEmpty(this.props.requests) && this.props.requests;
     return (
@@ -36,7 +36,8 @@ class Requests extends Component {
             <div key={uuid} className="box-col container">
               <User
                 user={users[uuid]}
-                following={uuid}
+                follower={uuid}
+                following={following}
                 type="deny"
                 denyRequest={this.props.denyRequest}
               />
@@ -49,7 +50,7 @@ class Requests extends Component {
             <div key={uuid} className="box-col container">
               <User
                 user={users[uuid]}
-                following={uuid}
+                following={following}
                 type="approve"
                 approveRequest={this.props.approveRequest}
               />

@@ -469,6 +469,13 @@ ul.block > li {
 .btn:hover {
   background-color: #1cc6e0;
 }
+.frame {
+  background: #fff;
+  padding: 15px;
+}
+.back-link:before {
+  content: "\21BD ";
+}
 #header {
   background: #fff;
   position: fixed;

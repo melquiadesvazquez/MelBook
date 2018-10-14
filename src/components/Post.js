@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Parser from 'html-react-parser';
 import PropTypes from 'prop-types';
 
-class Post extends React.Component {
+class Post extends Component {
   static propTypes = {
     index: PropTypes.string,
     post: PropTypes.shape({
@@ -22,9 +22,10 @@ class Post extends React.Component {
             <h2 className="post-title">{Parser(post.title)}</h2>
             <div className="post-text">{Parser(post.content)}</div>
           </header>
+          {this.props.removePost &&
           <footer>
             <button className="btn" onClick={() => this.props.removePost(this.props.uuid, this.props.index)}>Delete post</button>
-          </footer>
+          </footer>}
         </div>
       </article>
     )

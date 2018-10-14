@@ -14,9 +14,9 @@ const Header = props =>
           </ul>
       </nav>
       <nav id="menuSearch">
-          <ul>
-            <li><a href="#account" title="Login / Register"><i className="fa fa-user"></i></a></li>
-          </ul>
+        <ul>
+          <li><a href="/logout" title="Logout"><i className="fa fa-sign-out-alt"></i></a></li>
+        </ul>
       </nav>
     </div>
   </header>

@@ -1,8 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getUsers, followRequest } from '../actions/actionCreator';
+import { getUsers, getRequests, followRequest } from '../actions/actionCreator';
 import User from "./User";
+import {isEmpty} from '../helpers';
 
 class Users extends Component {
   state = {
@@ -11,6 +12,7 @@ class Users extends Component {
 
   componentDidMount() {
     this.props.getUsers();
+    this.props.getRequests();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -21,16 +23,23 @@ class Users extends Component {
     }
   }
 
+  isFollower(follower, following, requests) {
+    return !isEmpty(requests.pending[following]) && requests.pending[following].find(follower)
+  }
+
   render() {
-    const uuid = localStorage.hasOwnProperty('melbook:uuid') && localStorage.getItem('melbook:uuid');
-    const {users} = this.props;
+    const follower = localStorage.hasOwnProperty('melbook:uuid') && localStorage.getItem('melbook:uuid');
+    const {users, requests} = this.props;
     return (
       <div className="box-row">
         {Object.keys(users).map((uuid) => (
+          follower !== uuid &&
           <div key={uuid} className="box-col container">
             <User
               user={users[uuid]}
+              follower={follower}
               following={uuid}
+              followed={this.isFollower(follower, uuid, requests)}
               followRequest={this.props.followRequest}
             />
           </div>
@@ -46,6 +55,6 @@ const mapStateToProps = (state) => ({
   errors: state.errors
 })
 
-export default connect(mapStateToProps, { getUsers, followRequest })(Users);
+export default connect(mapStateToProps, { getUsers, getRequests, followRequest })(Users);
 
 

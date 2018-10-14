@@ -18,18 +18,18 @@ export default function (state = initialState, action) {
         approved: requests.approved.filter(uuid => uuid !== action.follower),
         pending: requests.pending.concat([action.follower])
       }
-      localStorage.setItem(`melbook:posts:${action.following}`, JSON.stringify(requests));
+      localStorage.setItem(`melbook:requests:${action.following}`, JSON.stringify(requests));
       return {...requests};
     case ADD_APPROVED_FOLLOWER:
       requests = {
         approved: requests.approved.concat([action.follower]),
         pending: requests.pending.filter(uuid => uuid !== action.follower)
       }
-      localStorage.setItem(`melbook:posts:${action.following}`, JSON.stringify(requests));
+      localStorage.setItem(`melbook:requests:${action.following}`, JSON.stringify(requests));
       return {...requests};
     case REMOVE_APPROVED_FOLLOWER:
       requests.approved = requests.approved.filter(uuid => uuid !== action.follower);
-      localStorage.setItem(`melbook:posts:${action.following}`, JSON.stringify(requests));
+      localStorage.setItem(`melbook:requests:${action.following}`, JSON.stringify(requests));
       return {...requests};
     default:
       return state;

@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { getPosts, addPost, removePost } from '../actions/actionCreator';
 import User from "./User";
 import Post from "./Post";
@@ -23,7 +24,7 @@ class Me extends Component {
     }
     else {
       this.setState({user: users[uuid]});
-      localStorage.setItem('melbook:user', JSON.stringify(users[uuid]));
+      !isEmpty(users[uuid]) && localStorage.setItem('melbook:user', JSON.stringify(users[uuid]));
     }
 
     this.props.getPosts(uuid);
@@ -47,6 +48,9 @@ class Me extends Component {
             user={this.state.user}
             type="me"
           />
+          <div className="frame">
+            <Link className="btn back-link" to="/users">Back</Link>
+          </div>
         </div>
         <div className="box-col container wide">
           {posts && posts.map((post, i) => (

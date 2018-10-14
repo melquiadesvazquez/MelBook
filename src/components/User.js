@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import UserButtons from "./UserButtons";
@@ -63,7 +63,7 @@ class User extends Component {
           <footer>
             <p>
               <UserButtons
-                uuid={login.uuid}
+                follower={this.props.follower}
                 following={this.props.following}
                 followRequest={followRequest}
                 approveRequest={approveRequest}

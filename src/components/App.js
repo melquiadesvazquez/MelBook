@@ -5,6 +5,7 @@ import store, { history } from '../store';
 import { setCurrentUser, logoutUser } from '../actions/actionCreator';
 import Layout from '../components/Layout';
 import Login from '../components/Login';
+import Logout from '../components/Logout';
 import Me from '../components/Me';
 import Users from '../components/Users';
 import Profile from '../components/Profile';
@@ -40,6 +41,7 @@ class App extends Component {
           <Layout>
             <Switch>
               <Route exact path="/" component={Login} />
+              <Route exact path="/logout" component={Logout} />
               <Route exact path="/me" component={Me} />
               <Route exact path="/users" component={Users} />
               <Route path="/users/:uuid" component={Profile}/>
