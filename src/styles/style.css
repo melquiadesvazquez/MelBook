@@ -667,29 +667,32 @@ ul.block > li {
 #footer ul li first-child {
   margin: 0;
 }
-.sidebar-left,
-.sidebar-right {
-  margin-bottom: 30px;
-}
-.sidebar-left p,
-.sidebar-right p {
-  background: #fff;
-}
-.sidebar-left section,
-.sidebar-right section {
-  background: #fff;
-  padding: 15px;
-  margin-bottom: 30px;
-}
-.sidebar-left figure,
-.sidebar-right figure {
-  background: #fff;
-  margin-bottom: 30px;
-}
 .post {
+  display: flex;
+  flex-wrap: wrap;
   margin-bottom: 30px;
+}
+.post .post-col {
+  position: relative;
+  width: 100%;
+}
+.post .post-col.post-body {
   background: #fff;
+  order: 2;
+  flex: 0 0 80%;
+  max-width: 80%;
   padding: 15px;
+}
+.post .post-col.post-body.wide {
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+@media screen and (min-width: 992px) {
+  .post .post-col.post-body {
+    flex: 0 0 70%;
+    max-width: 70%;
+    order: 2;
+  }
 }
 .post .post-title a {
   text-decoration: none;
@@ -702,43 +705,8 @@ ul.block > li {
   text-decoration: none;
   font-weight: 700;
 }
-.post .post-link:after {
+.post .post-link after {
   content: " \21C1";
-}
-.post .text-right .post-link:before {
-  content: "\21BD ";
-}
-.post .text-right .post-link:after {
-  content: "";
-}
-.post-detail .post-col,
-.post-detail .post-col.post-body {
-  flex: 0 0 100%;
-  max-width: 100%;
-}
-.post-detail .post-likes {
-  outline-width: 0;
-  font-size: 0.875rem;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  transition: color 0.5s ease;
-}
-.post-detail .post-likes:hover {
-  color: #1cc6e0;
-}
-.post-detail .post-likes.active {
-  color: #dc3545;
-}
-.post-detail .post-likes.active .fa-heart {
-  -webkit-animation-name: heartBeat;
-          animation-name: heartBeat;
-  -webkit-animation-duration: 1s;
-          animation-duration: 1s;
-  -webkit-animation-iteration-count: infinite;
-          animation-iteration-count: infinite;
-  -webkit-animation-direction: alternate;
-          animation-direction: alternate;
 }
 .post-img {
   order: 1;
@@ -778,27 +746,6 @@ ul.block > li {
   border-radius: 15px;
   float: left;
   margin: 0 5px 0 0;
-}
-#comments {
-  background: none;
-}
-.comment {
-  background: #fff;
-  padding: 15px;
-  margin-bottom: 30px;
-}
-.comment header,
-.comment footer {
-  padding: 0;
-}
-.comment footer {
-  font-size: 0.875rem;
-}
-.comment footer p {
-  padding: 0;
-}
-.comment footer .comment-author-name {
-  font-weight: 600;
 }
 form.form {
   background: #fff;

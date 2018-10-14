@@ -4,7 +4,10 @@ import {GET_ERRORS,
         SET_POSTS,
         ADD_POST,
         REMOVE_POST,
-        SET_REQUESTS} from './types';
+        SET_REQUESTS,
+        ADD_PENDING_FOLLOWER,
+        ADD_APPROVED_FOLLOWER,
+        REMOVE_APPROVED_FOLLOWER} from './types';
 import sampleRequests from '../data/sample-requests';
 import samplePosts from '../data/sample-posts';
 
@@ -76,12 +79,19 @@ export const setUsers = users => {
   }
 }
 
-export const getPosts = (uuid) => dispatch => {
+export const getPosts = uuid => dispatch => {
   let foundPosts = samplePosts;
   if (localStorage.hasOwnProperty('melbook:posts')) {
     foundPosts = JSON.parse(localStorage.getItem('melbook:posts'));
   }
   dispatch(setPosts(foundPosts[uuid]));
+}
+
+export const setPosts = posts => {
+  return {
+    type: SET_POSTS,
+    payload: posts
+  }
 }
 
 export const addPost = (uuid, post) => dispatch => {
@@ -92,34 +102,44 @@ export const addPost = (uuid, post) => dispatch => {
   });
 };
 
-export const removePost = (index) => dispatch => {
+export const removePost = index => dispatch => {
   dispatch({
     type: REMOVE_POST,
     index
   });
 }
 
-export const getRequests = (uuid) => dispatch => {
+export const getRequests = uuid => dispatch => {
   let foundRequests = sampleRequests;
   if (localStorage.hasOwnProperty('melbook:requests')) {
     foundRequests = JSON.parse(localStorage.getItem('melbook:requests'));
   }
-  dispatch(setRequests({
-    approved: foundRequests.approved[uuid],
-    pending: foundRequests.pending[uuid],
-  }));
-}
-
-export const setPosts = posts => {
-  return {
-    type: SET_POSTS,
-    payload: posts
-  }
-}
-
-export const setRequests = requests => {
-  return {
+  dispatch({
     type: SET_REQUESTS,
-    payload: requests
-  }
+    payload: {
+      approved: foundRequests.approved[uuid],
+      pending: foundRequests.pending[uuid],
+    }
+  });
 }
+
+export const followRequest = uuid => dispatch => {
+  dispatch({
+    type: ADD_PENDING_FOLLOWER,
+    uuid
+  });
+};
+
+export const approveRequest = uuid => dispatch => {
+  dispatch({
+    type: ADD_APPROVED_FOLLOWER,
+    uuid
+  });
+};
+
+export const denyRequest = uuid => dispatch => {
+  dispatch({
+    type: REMOVE_APPROVED_FOLLOWER,
+    uuid
+  });
+};

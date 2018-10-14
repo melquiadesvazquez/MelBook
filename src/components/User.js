@@ -1,7 +1,31 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import UserButtons from "./UserButtons";
 
 class User extends Component {
+  static propTypes = {
+    following: PropTypes.string,
+    /*
+    user: PropTypes.shape({
+      login: {
+        uuid: PropTypes.string,
+      },
+      name: {
+        first: PropTypes.string,
+        last: PropTypes.string
+      },
+      picture: {
+        thumbnail: PropTypes.string,
+        medium: PropTypes.string,
+        large: PropTypes.string
+      }
+    }),*/
+    followRequest: PropTypes.func,
+    approveRequest: PropTypes.func,
+    denyRequest: PropTypes.func
+  }
+
   render() {
     const defaultUser = {
       login: {
@@ -18,27 +42,9 @@ class User extends Component {
       }
     }
 
-    const renderActions = (param) => {
-      const {login} = (this.props.user.login && this.props.user) || defaultUser;
-      switch(param) {
-        case 'deny':
-          return <a href="#" className="btn">Deny</a>
-        case 'approve':
-          return <a href="#" className="btn">Approve</a>
-        case 'profile':
-          return <a href="#" className="btn">Follow</a>
-        case 'me':
-          return '';
-        default:
-          return (
-            <Fragment>
-              <a href="#" className="btn">Follow</a>
-              <Link className="btn" to={`/users/${login.uuid}`}>Read</Link>
-            </Fragment>
-          );
-      }
-    }
-
+    const followRequest = this.props.followRequest || {};
+    const approveRequest = this.props.approveRequest || {};
+    const denyRequest = this.props.denyRequest || {};
     const {name, picture, login} = (this.props.user.login && this.props.user) || defaultUser;
     return (
       <article className="post">
@@ -56,7 +62,13 @@ class User extends Component {
           </header>
           <footer>
             <p>
-              {renderActions(this.props.type)}
+              <UserButtons
+                uuid={login.uuid}
+                followRequest={followRequest}
+                approveRequest={approveRequest}
+                denyRequest={denyRequest}
+                type={this.props.type}
+              />
             </p>
           </footer>
         </div>

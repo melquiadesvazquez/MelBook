@@ -17,9 +17,15 @@ class Post extends React.Component {
     const {post} = this.props;
     return (
       <article className="post">
-        <h2 className="post-title">{Parser(post.title)}</h2>
-        <div className="post-text">{Parser(post.content)}</div>
-        <button type="submit" className="btn" onClick={() => this.props.removePost(this.props.index)}>Delete post</button>
+        <div className="post-col post-body wide">
+          <header>
+            <h2 className="post-title">{Parser(post.title)}</h2>
+            <div className="post-text">{Parser(post.content)}</div>
+          </header>
+          <footer>
+            <button className="btn" onClick={() => this.props.removePost(this.props.index)}>Delete post</button>
+          </footer>
+        </div>
       </article>
     )
   }

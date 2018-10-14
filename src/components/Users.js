@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getUsers } from '../actions/actionCreator';
+import { getUsers, followRequest } from '../actions/actionCreator';
 import User from "./User";
 
 class Users extends Component {
@@ -29,6 +29,7 @@ class Users extends Component {
           <div key={uuid} className="box-col container">
             <User
               user={users[uuid]}
+              followRequest={this.props.followRequest}
             />
           </div>
         ))}
@@ -39,9 +40,10 @@ class Users extends Component {
 
 const mapStateToProps = (state) => ({
   users: state.users,
+  requests: state.requests,
   errors: state.errors
 })
 
-export default connect(mapStateToProps, { getUsers })(Users);
+export default connect(mapStateToProps, { getUsers, followRequest })(Users);
 
 

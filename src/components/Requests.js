@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getRequests } from '../actions/actionCreator';
+import { getRequests, followRequest, approveRequest, denyRequest } from '../actions/actionCreator';
 import User from "./User";
-
+import {isEmpty} from '../helpers';
 class Requests extends Component {
   state = {
     errors: {}
@@ -13,7 +13,6 @@ class Requests extends Component {
     if(localStorage.hasOwnProperty('melbook:uuid')) {
       this.props.getRequests(localStorage.getItem('melbook:uuid'));
     }
-
   }
 
   componentWillReceiveProps(nextProps) {
@@ -25,27 +24,30 @@ class Requests extends Component {
   }
 
   render() {
-    const {requests, users} = this.props;
+    const {users} = !isEmpty(this.props.users) && this.props;
+    const {approved, pending} = !isEmpty(this.props.requests) && this.props.requests;
     return (
       <Fragment>
         <h2>Approved</h2>
         <div className="box-row">
-          {users.length && requests.approved && requests.approved.map((uuid) => (
+          {users && approved && approved.map((uuid) => (
             <div key={uuid} className="box-col container">
               <User
                 user={users[uuid]}
                 type="deny"
+                denyRequest={this.props.denyRequest}
               />
             </div>
           ))}
         </div>
         <h2>Pending</h2>
         <div className="box-row">
-          {users.length && requests.pending && requests.pending.map((uuid) => (
+          {users && pending && pending.map((uuid) => (
             <div key={uuid} className="box-col container">
               <User
                 user={users[uuid]}
                 type="approve"
+                approveRequest={this.props.approveRequest}
               />
             </div>
           ))}
@@ -61,6 +63,6 @@ const mapStateToProps = (state) => ({
   errors: state.errors
 })
 
-export default connect(mapStateToProps, { getRequests })(Requests);
+export default connect(mapStateToProps, { getRequests, followRequest, approveRequest, denyRequest })(Requests);
 
 

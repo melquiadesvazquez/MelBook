@@ -10,7 +10,6 @@ import {isEmpty} from '../helpers';
 class Me extends Component {
   state = {
     user: {},
-    posts: {},
     errors: {}
   };
 
@@ -45,7 +44,6 @@ class Me extends Component {
       <div className="box-row">
         <div className="box-col container">
           <User
-            key={this.props.match.params.uuid}
             user={this.state.user}
             type="me"
           />
@@ -78,7 +76,6 @@ const mapStateToProps = (state) => ({
   errors: state.errors
 })
 
-//export default Profile;
 export default connect(mapStateToProps, { getPosts, addPost, removePost })(Me);
 
 
