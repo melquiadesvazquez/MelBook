@@ -5,10 +5,12 @@ export default function (state = {}, action) {
   switch (action.type) {
     case GET_POSTS:
       return action.payload
+
     case ADD_POST:
       posts = state.concat([action.post])
       localStorage.setItem(`melbook:posts:${action.uuid}`, JSON.stringify(posts));
       return posts;
+
     case REMOVE_POST:
       posts = [
         ...state.slice(0, action.index),
@@ -16,6 +18,7 @@ export default function (state = {}, action) {
       ]
       localStorage.setItem(`melbook:posts:${action.uuid}`, JSON.stringify(posts));
       return posts;
+
     default:
       return state;
   }

@@ -6,7 +6,7 @@ const Header = props =>
     <div className="container">
       <h1><Link to="/">MelBook</Link></h1>
       <nav id="menuTop">
-          <a id="menuBtn" href="#"><i className="fa fa-bars"></i></a>
+          <a id="menuBtn" href="/"><i className="fa fa-bars"></i></a>
           <ul>
             <li><Link to="/me">me</Link></li>
             <li><Link to="/users">users</Link></li>

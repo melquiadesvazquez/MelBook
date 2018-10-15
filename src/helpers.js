@@ -10,3 +10,15 @@ export const isEmpty = (value) => {
 export const mapUsers = (users) => {
   return Object.assign({}, ...users.map((user) => ({[user.login.uuid]: user})));
 }
+
+export const isFollower = (follower, following, requests) => {
+  let result = false;
+  if (!isEmpty(requests.pending[following]) && requests.pending[following].includes(follower)) {
+    result = 'pending';
+  }
+  else
+  if (!isEmpty(requests.approved[following]) && requests.approved[following].includes(follower)) {
+    result = 'approved';
+  }
+  return result;
+}

@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getUsers, getRequests, followRequest, approveRequest, denyRequest } from '../actions/actionCreator';
 import User from "./User";
@@ -11,9 +10,7 @@ class Requests extends Component {
 
   componentDidMount() {
     this.props.getUsers();
-    if(localStorage.hasOwnProperty('melbook:uuid')) {
-      this.props.getRequests(localStorage.getItem('melbook:uuid'));
-    }
+    this.props.getRequests();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -32,7 +29,7 @@ class Requests extends Component {
       <Fragment>
         <h2>Approved</h2>
         <div className="box-row">
-          {users && approved && approved.map((uuid) => (
+          {users && !isEmpty(approved[following]) && approved[following].map((uuid) => (
             <div key={uuid} className="box-col container">
               <User
                 user={users[uuid]}
@@ -46,10 +43,11 @@ class Requests extends Component {
         </div>
         <h2>Pending</h2>
         <div className="box-row">
-          {users && pending && pending.map((uuid) => (
+          {users && !isEmpty(pending[following]) && pending[following].map((uuid) => (
             <div key={uuid} className="box-col container">
               <User
                 user={users[uuid]}
+                follower={uuid}
                 following={following}
                 type="approve"
                 approveRequest={this.props.approveRequest}

@@ -5,22 +5,9 @@ import UserButtons from "./UserButtons";
 
 class User extends Component {
   static propTypes = {
-    following: PropTypes.string,
-    /*
-    user: PropTypes.shape({
-      login: {
-        uuid: PropTypes.string,
-      },
-      name: {
-        first: PropTypes.string,
-        last: PropTypes.string
-      },
-      picture: {
-        thumbnail: PropTypes.string,
-        medium: PropTypes.string,
-        large: PropTypes.string
-      }
-    }),*/
+    user: PropTypes.object.isRequired,
+    follower: PropTypes.string.isRequired,
+    following: PropTypes.string.isRequired,
     followRequest: PropTypes.func,
     approveRequest: PropTypes.func,
     denyRequest: PropTypes.func
@@ -42,6 +29,7 @@ class User extends Component {
       }
     }
 
+    const followed = this.props.followed || false;
     const followRequest = this.props.followRequest || {};
     const approveRequest = this.props.approveRequest || {};
     const denyRequest = this.props.denyRequest || {};
@@ -65,6 +53,7 @@ class User extends Component {
               <UserButtons
                 follower={this.props.follower}
                 following={this.props.following}
+                followed={followed}
                 followRequest={followRequest}
                 approveRequest={approveRequest}
                 denyRequest={denyRequest}

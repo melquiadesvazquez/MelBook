@@ -4,7 +4,7 @@ import {GET_ERRORS,
         GET_POSTS,
         ADD_POST,
         REMOVE_POST,
-        SET_REQUESTS,
+        GET_REQUESTS,
         ADD_PENDING_FOLLOWER,
         ADD_APPROVED_FOLLOWER,
         REMOVE_APPROVED_FOLLOWER} from './types';
@@ -90,6 +90,9 @@ export const getPosts = uuid => dispatch => {
   if (localStorage.hasOwnProperty(`melbook:posts:${uuid}`)) {
     foundPosts = JSON.parse(localStorage.getItem(`melbook:posts:${uuid}`));
   }
+  else {
+    localStorage.setItem(`melbook:posts:${uuid}`, JSON.stringify(foundPosts));
+  }
   dispatch({
     type: GET_POSTS,
     payload: foundPosts
@@ -112,16 +115,16 @@ export const removePost = (uuid, index) => dispatch => {
   });
 }
 
-export const getRequests = uuid => dispatch => {
-  let foundRequests = {
-    approved: sampleRequests.approved[uuid] || [],
-    pending: sampleRequests.pending[uuid] || [],
+export const getRequests = () => dispatch => {
+  let foundRequests = sampleRequests;
+  if (localStorage.hasOwnProperty(`melbook:requests`)) {
+    foundRequests = JSON.parse(localStorage.getItem(`melbook:requests`));
   }
-  if (localStorage.hasOwnProperty(`melbook:requests:${uuid}`)) {
-    foundRequests = JSON.parse(localStorage.getItem(`melbook:requests:${uuid}`));
+  else {
+    localStorage.setItem('melbook:requests', JSON.stringify(foundRequests));
   }
   dispatch({
-    type: SET_REQUESTS,
+    type: GET_REQUESTS,
     payload: {
       approved: foundRequests.approved,
       pending: foundRequests.pending,

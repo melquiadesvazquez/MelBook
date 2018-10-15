@@ -1,11 +1,10 @@
-import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getPosts, followRequest } from '../actions/actionCreator';
+import { getPosts, getRequests, followRequest, denyRequest } from '../actions/actionCreator';
 import User from "./User";
 import Post from "./Post";
-import {isEmpty} from '../helpers';
+import {isEmpty, isFollower} from '../helpers';
 
 class Profile extends Component {
   state = {
@@ -16,6 +15,7 @@ class Profile extends Component {
   componentDidMount() {
     const {users} = this.props;
     const {uuid} = this.props.match.params;
+    const follower = localStorage.hasOwnProperty('melbook:uuid') && localStorage.getItem('melbook:uuid');
     const storedUser = localStorage.hasOwnProperty('melbook:user') && JSON.parse(localStorage.getItem('melbook:user'));
 
     if (storedUser && storedUser.login.uuid === uuid) {
@@ -27,6 +27,11 @@ class Profile extends Component {
     }
 
     this.props.getPosts(uuid);
+    this.props.getRequests();
+
+    if(isFollower(follower, uuid, this.props.requests) !== 'approved') {
+      this.props.history.push('/users');
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -41,6 +46,7 @@ class Profile extends Component {
     const follower = localStorage.hasOwnProperty('melbook:uuid') && localStorage.getItem('melbook:uuid');
     const {uuid} = !isEmpty(this.state.user) && !isEmpty(this.state.user.login) && this.state.user.login;
     const {posts} = !isEmpty(this.props.posts) && this.props;
+    const {requests} = !isEmpty(this.props.requests) && this.props;
     return (
       <div className="box-row">
         <div className="box-col container">
@@ -49,7 +55,9 @@ class Profile extends Component {
             type="profile"
             follower={follower}
             following={uuid}
+            followed={isFollower(follower, uuid, requests)}
             followRequest={this.props.followRequest}
+            denyRequest={this.props.denyRequest}
           />
           <div className="frame">
             <Link className="btn back-link" to="/users">Back</Link>
@@ -72,11 +80,12 @@ class Profile extends Component {
 
 const mapStateToProps = (state) => ({
   users: state.users,
+  requests: state.requests,
   posts: state.posts,
   errors: state.errors
 })
 
 //export default Profile;
-export default connect(mapStateToProps, { getPosts, followRequest })(Profile);
+export default connect(mapStateToProps, { getPosts, getRequests, followRequest, denyRequest })(Profile);
 
 

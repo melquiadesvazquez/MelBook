@@ -6,9 +6,9 @@ const Footer = props =>
       <p><span className="d-inline-sm">Copyright </span>&copy; MelBook 2018</p>
       <nav>
           <ul>
-            <li><a href="#" title="Twitter"><span className="fa-stack"><i className="fas fa-circle fa-stack-2x"></i> <i className="fab fa-twitter fa-stack-1x fa-inverse"></i></span></a></li>
-            <li><a href="#" title="Facebook"><span className="fa-stack"><i className="fas fa-circle fa-stack-2x"></i> <i className="fab fa-facebook-f fa-stack-1x fa-inverse"></i></span></a></li>
-            <li><a href="#" title="Github"><span className="fa-stack"><i className="fas fa-arrow-alt-circle-up fa-stack-2x"></i></span></a></li>
+            <li><a href="/" title="Twitter"><span className="fa-stack"><i className="fas fa-circle fa-stack-2x"></i> <i className="fab fa-twitter fa-stack-1x fa-inverse"></i></span></a></li>
+            <li><a href="/" title="Facebook"><span className="fa-stack"><i className="fas fa-circle fa-stack-2x"></i> <i className="fab fa-facebook-f fa-stack-1x fa-inverse"></i></span></a></li>
+            <li><a href="#root" title="Up"><span className="fa-stack"><i className="fas fa-arrow-alt-circle-up fa-stack-2x"></i></span></a></li>
           </ul>
       </nav>
     </div>

@@ -1,9 +1,8 @@
-import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getUsers, getRequests, followRequest } from '../actions/actionCreator';
+import { getUsers, getRequests, followRequest, denyRequest } from '../actions/actionCreator';
 import User from "./User";
-import {isEmpty} from '../helpers';
+import {isFollower} from '../helpers';
 
 class Users extends Component {
   state = {
@@ -23,10 +22,6 @@ class Users extends Component {
     }
   }
 
-  isFollower(follower, following, requests) {
-    return !isEmpty(requests.pending[following]) && requests.pending[following].find(follower)
-  }
-
   render() {
     const follower = localStorage.hasOwnProperty('melbook:uuid') && localStorage.getItem('melbook:uuid');
     const {users, requests} = this.props;
@@ -39,8 +34,9 @@ class Users extends Component {
               user={users[uuid]}
               follower={follower}
               following={uuid}
-              followed={this.isFollower(follower, uuid, requests)}
+              followed={isFollower(follower, uuid, requests)}
               followRequest={this.props.followRequest}
+              denyRequest={this.props.denyRequest}
             />
           </div>
         ))}
@@ -55,6 +51,6 @@ const mapStateToProps = (state) => ({
   errors: state.errors
 })
 
-export default connect(mapStateToProps, { getUsers, getRequests, followRequest })(Users);
+export default connect(mapStateToProps, { getUsers, getRequests, followRequest, denyRequest })(Users);
 
 
