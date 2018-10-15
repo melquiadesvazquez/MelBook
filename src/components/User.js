@@ -37,12 +37,7 @@ class User extends Component {
     return (
       <article className="post">
         <figure className="post-col post-img">
-          <Link to={{
-            pathname: `/users/${login.uuid}`,
-            state: { user: this.props.user }
-          }}>
-            <img src={picture.thumbnail} srcSet={`${picture.thumbnail} 480w, ${picture.medium} 960w, ${picture.large} 1440w`} alt={name.first} />
-          </Link>
+          <img src={picture.thumbnail} srcSet={`${picture.thumbnail} 480w, ${picture.medium} 960w, ${picture.large} 1440w`} alt={name.first} />
         </figure>
         <div className="post-col post-body">
           <header>

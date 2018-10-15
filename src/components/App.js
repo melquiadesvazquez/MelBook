@@ -41,11 +41,11 @@ class App extends Component {
           <Layout>
             <Switch>
               <Route exact path="/" component={Login} />
-              <Route exact path="/logout" component={Logout} />
-              <Route exact path="/me" component={Me} />
               <Route exact path="/users" component={Users} />
               <Route path="/users/:uuid" component={Profile}/>
               <Route path="/requests" component={Requests} />
+              <Route path="/me" component={Me} />
+              <Route path="/logout" component={Logout} />
               <Route component={NotFound} />
             </Switch>
           </Layout>
