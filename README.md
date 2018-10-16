@@ -4,7 +4,7 @@
 
 Social network where users can write messages for their followers built with React, Redux, ES6 and Stylus.
 
-Live demo available on http://melbook.surge.sh
+Live demo available on <https://melbook.surge.sh>
 
 ## Prerequisites
 
@@ -46,7 +46,7 @@ npm run start
 
 Open your browser and go to:
 
-+ Website &ndash; http://localhost:3000
++ Website &ndash; <https://localhost:3000>
 + Alternatively, check the live demo [here](http://melbook.surge.sh)
 + Login as default user with angryostrich988:r2d2
 + Click "Follow" next to "Don White"

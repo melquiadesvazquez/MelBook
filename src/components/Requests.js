@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { getUsers, getRequests, followRequest, approveRequest, denyRequest } from '../actions/actionCreator';
+import { logoutUser, getUsers, getRequests, followRequest, approveRequest, denyRequest } from '../actions/actionCreator';
 import User from "./User";
 import {isEmpty} from '../helpers';
 class Requests extends Component {
@@ -9,8 +9,13 @@ class Requests extends Component {
   };
 
   componentDidMount() {
-    this.props.getUsers();
-    this.props.getRequests();
+    if(this.props.auth.isAuthenticated) {
+      this.props.getUsers();
+      this.props.getRequests();
+    }
+    else {
+      this.props.logoutUser(this.props.history);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -61,11 +66,12 @@ class Requests extends Component {
 }
 
 const mapStateToProps = (state) => ({
+  auth: state.auth,
   users: state.users,
   requests: state.requests,
   errors: state.errors
 })
 
-export default connect(mapStateToProps, { getUsers, getRequests, followRequest, approveRequest, denyRequest })(Requests);
+export default connect(mapStateToProps, { logoutUser, getUsers, getRequests, followRequest, approveRequest, denyRequest })(Requests);
 
 

@@ -29,6 +29,8 @@ class User extends Component {
       }
     }
 
+    const follower = this.props.follower || '';
+    const following = this.props.following || '';
     const followed = this.props.followed || false;
     const followRequest = this.props.followRequest || {};
     const approveRequest = this.props.approveRequest || {};
@@ -46,8 +48,8 @@ class User extends Component {
           <footer>
             <p>
               <UserButtons
-                follower={this.props.follower}
-                following={this.props.following}
+                follower={follower}
+                following={following}
                 followed={followed}
                 followRequest={followRequest}
                 approveRequest={approveRequest}

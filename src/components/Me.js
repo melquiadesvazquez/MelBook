@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getPosts, addPost, removePost } from '../actions/actionCreator';
+import { logoutUser, getPosts, addPost, removePost } from '../actions/actionCreator';
 import User from "./User";
 import Post from "./Post";
 import AddPost from "./AddPost";
@@ -14,19 +14,24 @@ class Me extends Component {
   };
 
   componentDidMount() {
-    const {users} = this.props;
-    const uuid = localStorage.hasOwnProperty('melbook:uuid') && localStorage.getItem('melbook:uuid');
-    const storedUser = localStorage.hasOwnProperty('melbook:user') && JSON.parse(localStorage.getItem('melbook:user'));
+    if(this.props.auth.isAuthenticated) {
+      const {users} = this.props;
+      const uuid = localStorage.hasOwnProperty('melbook:uuid') && localStorage.getItem('melbook:uuid');
+      const storedUser = localStorage.hasOwnProperty('melbook:user') && JSON.parse(localStorage.getItem('melbook:user'));
 
-    if (storedUser && storedUser.login.uuid === uuid) {
-      this.setState({user: storedUser});
+      if (storedUser && storedUser.login.uuid === uuid) {
+        this.setState({user: storedUser});
+      }
+      else {
+        this.setState({user: users[uuid]});
+        !isEmpty(users[uuid]) && localStorage.setItem('melbook:user', JSON.stringify(users[uuid]));
+      }
+
+      this.props.getPosts(uuid);
     }
     else {
-      this.setState({user: users[uuid]});
-      !isEmpty(users[uuid]) && localStorage.setItem('melbook:user', JSON.stringify(users[uuid]));
+      this.props.logoutUser(this.props.history);
     }
-
-    this.props.getPosts(uuid);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -75,11 +80,12 @@ class Me extends Component {
 }
 
 const mapStateToProps = (state) => ({
+  auth: state.auth,
   users: state.users,
   posts: state.posts,
   errors: state.errors
 })
 
-export default connect(mapStateToProps, { getPosts, addPost, removePost })(Me);
+export default connect(mapStateToProps, { logoutUser, getPosts, addPost, removePost })(Me);
 
 

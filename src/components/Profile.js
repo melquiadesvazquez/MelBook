@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getPosts, getRequests, followRequest, denyRequest } from '../actions/actionCreator';
+import { logoutUser, getPosts, getRequests, followRequest, denyRequest } from '../actions/actionCreator';
 import User from "./User";
 import Post from "./Post";
 import {isEmpty, isFollower} from '../helpers';
@@ -13,24 +13,29 @@ class Profile extends Component {
   };
 
   componentDidMount() {
-    const {users} = this.props;
-    const {uuid} = this.props.match.params;
-    const follower = localStorage.hasOwnProperty('melbook:uuid') && localStorage.getItem('melbook:uuid');
-    const storedUser = localStorage.hasOwnProperty('melbook:user') && JSON.parse(localStorage.getItem('melbook:user'));
+    if(this.props.auth.isAuthenticated) {
+      const {users} = this.props;
+      const {uuid} = this.props.match.params;
+      const follower = localStorage.hasOwnProperty('melbook:uuid') && localStorage.getItem('melbook:uuid');
+      const storedUser = localStorage.hasOwnProperty('melbook:user') && JSON.parse(localStorage.getItem('melbook:user'));
 
-    if (storedUser && storedUser.login.uuid === uuid) {
-      this.setState({user: storedUser});
+      if (storedUser && storedUser.login.uuid === uuid) {
+        this.setState({user: storedUser});
+      }
+      else {
+        this.setState({user: users[uuid]});
+        !isEmpty(users[uuid]) && localStorage.setItem('melbook:user', JSON.stringify(users[uuid]));
+      }
+
+      this.props.getPosts(uuid);
+      this.props.getRequests();
+
+      if(isFollower(follower, uuid, this.props.requests) !== 'approved') {
+        this.props.history.push('/users');
+      }
     }
     else {
-      this.setState({user: users[uuid]});
-      !isEmpty(users[uuid]) && localStorage.setItem('melbook:user', JSON.stringify(users[uuid]));
-    }
-
-    this.props.getPosts(uuid);
-    this.props.getRequests();
-
-    if(isFollower(follower, uuid, this.props.requests) !== 'approved') {
-      this.props.history.push('/users');
+      this.props.logoutUser(this.props.history);
     }
   }
 
@@ -79,13 +84,13 @@ class Profile extends Component {
 }
 
 const mapStateToProps = (state) => ({
+  auth: state.auth,
   users: state.users,
   requests: state.requests,
   posts: state.posts,
   errors: state.errors
 })
 
-//export default Profile;
-export default connect(mapStateToProps, { getPosts, getRequests, followRequest, denyRequest })(Profile);
+export default connect(mapStateToProps, { logoutUser, getPosts, getRequests, followRequest, denyRequest })(Profile);
 
 

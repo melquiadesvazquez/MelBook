@@ -10,6 +10,12 @@ class Login extends Component {
     errors: {}
   };
 
+  static propTypes = {
+    loginUser: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
+    errors: PropTypes.object.isRequired
+  }
+
   handleChange = event => {
     this.setState({[event.currentTarget.name]: event.target.value})
   };
@@ -18,7 +24,7 @@ class Login extends Component {
     event.preventDefault();
     const user = {
       username: this.state.username,
-      password: this.state.password,
+      password: this.state.password
     }
     this.props.loginUser(user);
   };
@@ -79,12 +85,6 @@ class Login extends Component {
     );
   };
 };
-
-Login.propTypes = {
-  loginUser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired
-}
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
