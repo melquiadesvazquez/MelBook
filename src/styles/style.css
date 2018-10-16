@@ -512,8 +512,7 @@ ul.block > li {
   font-size: 2rem;
   padding-bottom: 0;
   text-align: center;
-/*flex  0 0 60%*/
-  flex: 0 0 100%;
+  flex: 0 0 60%;
 }
 @media screen and (min-width: 576px) {
   #header h1 {

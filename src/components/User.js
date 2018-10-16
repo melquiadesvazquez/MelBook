@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import UserButtons from "./UserButtons";
+import {isEmpty} from '../helpers';
 
 class User extends Component {
   static propTypes = {
     user: PropTypes.object.isRequired,
-    follower: PropTypes.string.isRequired,
-    following: PropTypes.string.isRequired,
+    follower: PropTypes.string,
+    following: PropTypes.string,
     followRequest: PropTypes.func,
     approveRequest: PropTypes.func,
     denyRequest: PropTypes.func
@@ -33,7 +33,7 @@ class User extends Component {
     const followRequest = this.props.followRequest || {};
     const approveRequest = this.props.approveRequest || {};
     const denyRequest = this.props.denyRequest || {};
-    const {name, picture, login} = (this.props.user.login && this.props.user) || defaultUser;
+    const {name, picture} = (!isEmpty(this.props.user) && this.props.user) || defaultUser;
     return (
       <article className="post">
         <figure className="post-col post-img">

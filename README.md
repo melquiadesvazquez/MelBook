@@ -71,7 +71,6 @@ Open your browser and go to:
 
 + For testing purposes, the user data will be fecth from the randomuser.me database.
 + The rest of data, such us posts, requests and session will be held in the browser localStorage.
-+ In the live url logging out doesn't work properly, alternatively you can delete the property melbook:uuid from the localStorage.
 
 ## License
 

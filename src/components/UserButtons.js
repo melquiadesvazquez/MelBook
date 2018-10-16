@@ -22,8 +22,8 @@ class Button extends Component {
 
 class UserButtons extends Component {
   static propTypes = {
-    follower: PropTypes.string.isRequired,
-    following: PropTypes.string.isRequired,
+    follower: PropTypes.string,
+    following: PropTypes.string,
   }
 
   render() {
