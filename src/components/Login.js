@@ -7,6 +7,7 @@ class Login extends Component {
   state = {
     username: 'angryostrich988',
     password: 'r2d2',
+    dummydata: false,
     errors: {}
   };
 
@@ -17,7 +18,13 @@ class Login extends Component {
   }
 
   handleChange = event => {
-    this.setState({[event.currentTarget.name]: event.target.value})
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
   };
 
   handleSubmit = event => {
@@ -26,7 +33,7 @@ class Login extends Component {
       username: this.state.username,
       password: this.state.password
     }
-    this.props.loginUser(user);
+    this.props.loginUser(user, this.state.dummydata);
   };
 
   componentDidMount() {
@@ -42,13 +49,13 @@ class Login extends Component {
 
     if(nextProps.errors) {
       this.setState({
-          errors: nextProps.errors
+        errors: nextProps.errors
       });
     }
   }
 
   render() {
-    const { username, password, errors } = this.state;
+    const { username, password, dummydata, errors } = this.state;
     return (
       <div className="box-row">
         <form className="form box-col container" method="POST" onSubmit={this.handleSubmit}>
@@ -77,6 +84,16 @@ class Login extends Component {
               onChange={this.handleChange}
               value={password}
             />
+          </div>
+          <div className="form-group">
+            <input
+              type="checkbox"
+              id="dummydata"
+              name="dummydata"
+              onChange={this.handleChange}
+              checked={dummydata}
+            /> &nbsp;
+            <label htmlFor="dummydata">Load dummy data?</label>
           </div>
           <button type="submit" className="btn">Login</button>
           {errors && (<div className="notice">{errors.msg}</div>)}

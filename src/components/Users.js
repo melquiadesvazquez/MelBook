@@ -10,13 +10,8 @@ class Users extends Component {
   };
 
   componentDidMount() {
-    if(this.props.auth.isAuthenticated) {
-      this.props.getUsers();
-      this.props.getRequests();
-    }
-    else {
-      this.props.logoutUser(this.props.history);
-    }
+    this.props.getUsers();
+    this.props.getRequests(this.props.auth.dummydata);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -28,9 +23,10 @@ class Users extends Component {
   }
 
   render() {
-    const follower = (localStorage.hasOwnProperty('melbook:uuid') && localStorage.getItem('melbook:uuid')) || '';
+    const follower = this.props.auth.uuid;
     const {users, requests} = this.props;
-    return (
+
+    return this.props.auth.isAuthenticated && (
       <div className="box-row">
         {Object.keys(users).map((uuid) => (
           follower !== uuid &&

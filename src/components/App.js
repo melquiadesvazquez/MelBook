@@ -1,38 +1,28 @@
-import React, { Component } from 'react';
-import { Router, Route, Switch } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import store, { history } from '../store';
-import { setCurrentUser, logoutUser } from '../actions/actionCreator';
+import React, {Component} from 'react';
+import {Router, Route, Switch} from 'react-router-dom';
+import {Provider} from 'react-redux';
+import store, {history} from '../store';
+import {setCurrentUser, logoutUser} from '../actions/actionCreator';
 import Layout from '../components/Layout';
 import Login from '../components/Login';
+import Clear from '../components/Clear';
 import Logout from '../components/Logout';
 import Me from '../components/Me';
 import Users from '../components/Users';
 import Profile from '../components/Profile';
 import Requests from '../components/Requests';
 import NotFound from '../components/NotFound';
-// import base from "../base";
 
 class App extends Component {
   componentDidMount() {
-    if(localStorage.hasOwnProperty('melbook:uuid')) {
-      store.dispatch(setCurrentUser(localStorage.getItem('melbook:uuid')));
-
-      /*
-      this.ref = base.syncState(`users`, {
-        context: this,
-        state: 'users'
-      });
-      */
+    if(store.getState().auth.isAuthenticated) {
+      store.dispatch(setCurrentUser(store.getState().auth.uuid,
+                                    store.getState().auth.dummydata));
     }
     else {
       store.dispatch(logoutUser(history));
     }
   }
-
-  componentWillUnmount() {
-    // base.removeBinding(this.ref);
-  };
 
   render() {
     return (
@@ -46,6 +36,7 @@ class App extends Component {
               <Route path="/requests" component={Requests} />
               <Route path="/me" component={Me} />
               <Route path="/logout" component={Logout} />
+              <Route path="/clear" component={Clear} />
               <Route component={NotFound} />
             </Switch>
           </Layout>

@@ -14,42 +14,27 @@ class Me extends Component {
   };
 
   componentDidMount() {
-    if(this.props.auth.isAuthenticated) {
-      const {users} = this.props;
-      const uuid = localStorage.hasOwnProperty('melbook:uuid') && localStorage.getItem('melbook:uuid');
-      const storedUser = localStorage.hasOwnProperty('melbook:user') && JSON.parse(localStorage.getItem('melbook:user'));
-
-      if (storedUser && storedUser.login.uuid === uuid) {
-        this.setState({user: storedUser});
-      }
-      else {
-        this.setState({user: users[uuid]});
-        !isEmpty(users[uuid]) && localStorage.setItem('melbook:user', JSON.stringify(users[uuid]));
-      }
-
-      this.props.getPosts(uuid);
-    }
-    else {
-      this.props.logoutUser(this.props.history);
-    }
+    this.props.getPosts(this.props.auth.dummydata);
   }
 
   componentWillReceiveProps(nextProps) {
     if(nextProps.errors) {
       this.setState({
-          errors: nextProps.errors
+        errors: nextProps.errors
       });
     }
   }
 
   render() {
-    const {uuid} = !isEmpty(this.state.user) && !isEmpty(this.state.user.login) && this.state.user.login;
+    const uuid = this.props.auth.uuid;
+    const user = this.props.users[uuid];
     const {posts} = !isEmpty(this.props.posts) && this.props;
-    return (
+
+    return this.props.auth.isAuthenticated && (
       <div className="box-row">
         <div className="box-col container">
           <User
-            user={this.state.user}
+            user={user}
             type="me"
           />
           <div className="frame">
@@ -57,7 +42,7 @@ class Me extends Component {
           </div>
         </div>
         <div className="box-col container wide">
-          {posts && posts.map((post, i) => (
+          {posts && posts[uuid] && posts[uuid].map((post, i) => (
             <Post
               key={i}
               index={`${i}`}

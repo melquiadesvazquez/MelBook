@@ -9,13 +9,8 @@ class Requests extends Component {
   };
 
   componentDidMount() {
-    if(this.props.auth.isAuthenticated) {
-      this.props.getUsers();
-      this.props.getRequests();
-    }
-    else {
-      this.props.logoutUser(this.props.history);
-    }
+    this.props.getUsers();
+    this.props.getRequests(this.props.auth.dummydata);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -27,14 +22,15 @@ class Requests extends Component {
   }
 
   render() {
-    const following = localStorage.hasOwnProperty('melbook:uuid') && localStorage.getItem('melbook:uuid');
+    const following = this.props.auth.uuid;
     const {users} = !isEmpty(this.props.users) && this.props;
     const {approved, pending} = !isEmpty(this.props.requests) && this.props.requests;
-    return (
+
+    return this.props.auth.isAuthenticated && (
       <Fragment>
         <h2>Approved</h2>
         <div className="box-row">
-          {users && !isEmpty(approved[following]) && approved[following].map((uuid) => (
+          {users && approved && !isEmpty(approved[following]) && approved[following].map((uuid) => (
             <div key={uuid} className="box-col container">
               <User
                 user={users[uuid]}
@@ -48,7 +44,7 @@ class Requests extends Component {
         </div>
         <h2>Pending</h2>
         <div className="box-row">
-          {users && !isEmpty(pending[following]) && pending[following].map((uuid) => (
+          {users && pending && !isEmpty(pending[following]) && pending[following].map((uuid) => (
             <div key={uuid} className="box-col container">
               <User
                 user={users[uuid]}

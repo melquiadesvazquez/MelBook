@@ -13,11 +13,11 @@ export const mapUsers = (users) => {
 
 export const isFollower = (follower, following, requests) => {
   let result = false;
-  if (!isEmpty(requests.pending[following]) && requests.pending[following].includes(follower)) {
+  if (requests && requests.pending && !isEmpty(requests.pending[following]) && requests.pending[following].includes(follower)) {
     result = 'pending';
   }
   else
-  if (!isEmpty(requests.approved[following]) && requests.approved[following].includes(follower)) {
+  if (requests && requests.approved && !isEmpty(requests.approved[following]) && requests.approved[following].includes(follower)) {
     result = 'approved';
   }
   return result;

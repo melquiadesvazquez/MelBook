@@ -3,18 +3,20 @@ import {isEmpty} from '../helpers';
 
 const initialState = {
   isAuthenticated: false,
-  user: {}
-}
+  uuid: '',
+  dummydata: false
+};
 
 export default function (state = initialState, action) {
   switch (action.type) {
     case SET_CURRENT_USER:
       return {
         ...state,
-        isAuthenticated: !isEmpty(action.payload),
-        user: action.payload
+        isAuthenticated: !isEmpty(action.uuid),
+        uuid: action.uuid,
+        dummydata: action.dummydata
       }
     default:
       return state;
   }
-}
+};

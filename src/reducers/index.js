@@ -6,11 +6,22 @@ import usersReducer from './usersReducer';
 import postsReducer from './postsReducer';
 import requestsReducer from './requestsReducer';
 
-export default combineReducers({
-    errors: errorReducer,
-    auth: authReducer,
-    users: usersReducer,
-    posts: postsReducer,
-    requests: requestsReducer,
-    routing: routerReducer
-});
+const appReducer = combineReducers({
+  errors: errorReducer,
+  auth: authReducer,
+  users: usersReducer,
+  posts: postsReducer,
+  requests: requestsReducer,
+  routing: routerReducer
+})
+
+
+const rootReducer = (state, action) => {
+  if (action.type === 'LOG_OUT_CLEAR') {
+    state = undefined
+  }
+
+  return appReducer(state, action)
+}
+
+export default rootReducer;
